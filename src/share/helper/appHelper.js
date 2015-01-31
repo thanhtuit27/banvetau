@@ -2,30 +2,38 @@ define([
 	"share/config/app",
 	"share/config/handlers"
 	],function(appConfig, handlers){
+
+	var logger;
 	var helper={
 		config:config
 	};
 	return helper;
+	
 
 	function config(app){
-		console.log("Inside config the app");
+		logger=GLOBAL.ioc.resolve("ILogger");
+
 		configViews(app);
+		logger.info("view Configuration was done ...");
 		configViewEngine(app)
+		logger.info("Engine Configuration was done ...");
 		configHanders(app, handlers);
+		logger.info("Handlers Configuration was done ...");
 		startApp(app);
+		logger.info("The app was started ...");
 	}
 
 	function startApp(app){
 		var server=app.listen(appConfig.client.port, function(){
-			console.log("Waitting for incoming request ...");
+			logger.info("Waitting for incoming request ...");
 		});
 	}
 
 	function configHanders(app, handlers){
 		handlers.forEach(function(handlerItem){
-			console.log(String.format("Configuring '{0}' handler ....", handlerItem.name));
+			logger.info("Configuring '{0}' handler ....", handlerItem.name);
 			handlerItem.config(app);
-			console.log(String.format("'{0}' handler was configured.", handlerItem.name));
+			logger.info("'{0}' handler was configured.", handlerItem.name);
 
 		});
 	}

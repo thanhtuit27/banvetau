@@ -6,9 +6,10 @@ define(function(){
 	};
 	return handler;
 	function config(app){
+		var logger=GLOBAL.ioc.resolve("ILogger");
+
 		app.get('*.js', function (req, res) {
 			var fileName=req.originalUrl;
-			console.log(fileName);
 			var options = {
 				root: GLOBAL.baseDir,
 			    dotfiles: 'deny',
@@ -19,11 +20,11 @@ define(function(){
 		  	};
 		  	res.sendFile(fileName, options, function (err) {
 			    if (err) {
-			      console.log(err);
-			      res.status(err.status).end();
+			    	logger.error(err);
+			    	res.status(err.status).end();
 			    }
 			    else {
-			      console.log('Sent:', fileName);
+		    		logger.info("'{0}' file was sent", fileName);
 			    }
 		  	});
 	  	});

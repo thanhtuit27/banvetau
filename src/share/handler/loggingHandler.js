@@ -7,8 +7,9 @@ define(function(){
 	return handler;
 
 	function config(app){
+		var logger=GLOBAL.ioc.resolve("ILogger");
 		app.all('*', function(req, res, next){
-			console.log(String.format("Incomming request:'{0}' at {1}", req.originalUrl, new Date()));
+			logger.info("Incomming request:'{0}'", req.originalUrl)
 			next()
 		});
 	}
