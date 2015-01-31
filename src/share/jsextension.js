@@ -1,7 +1,27 @@
 /*
 Define all extention for js object in this file
 */
+
 System = {
+    toJson:function(obj, deepLevel, currentLevel){
+        try{
+            deepLevel = deepLevel?deepLevel:2;
+            currentLevel = currentLevel?currentLevel:0;
+            if(currentLevel>deepLevel){ return "";}
+
+            if(obj==undefined || obj==null){return "";}
+            if(!System.isObject(obj)){return JSON.stringify(obj);}
+
+            var json="";
+            for (var property in obj) {
+                var value=obj[property];
+                json=String.format("{0},{1}:'{2}'", json, property, System.toJson(value, deepLevel, currentLevel+1));
+            };
+            return "{"+ json+"}";
+        }catch(e){
+            return "";
+        }
+    },
     isFunction: function(object) {
         return typeof object == "function";
     },
@@ -15,7 +35,6 @@ System = {
         return obj instanceof Object;
     }
 };
-
 
 Array.prototype.copyFrom = function(arr, startIndex, count) {
     if (!arr) {

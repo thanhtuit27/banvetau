@@ -1,13 +1,15 @@
 define([
 		"share/handler/staticContentHandler",
+		"share/handler/loggingHandler",
 		"share/handler/clientHandler",
-		"share/handler/loggingHandler"
-	],function(staticContentHandler, clientHandler, loggingHandler){
+		"share/handler/serverHandler"
+	],function(staticContentHandler, clientHandler, loggingHandler, serverHandler){
 
 	var handlers=[
 		staticContentHandler, 
 		clientHandler, 
-		loggingHandler
+		loggingHandler,
+		serverHandler
 	];
 	
 	return handlers;
