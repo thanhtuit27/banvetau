@@ -9,7 +9,13 @@ define(function(){
 		var logger=GLOBAL.ioc.resolve("ILogger");
 
 		app.get('*.js', function (req, res) {
-			var fileName=req.originalUrl;
+			downloadFile(req, res);
+	  	});
+	  	app.get('*.html', function (req, res) {
+			downloadFile(req, res);
+	  	});
+	  	function downloadFile(req, res){
+	  		var fileName=req.originalUrl;
 			var options = {
 				root: GLOBAL.baseDir,
 			    dotfiles: 'deny',
@@ -27,6 +33,7 @@ define(function(){
 		    		logger.info("'{0}' file was sent", fileName);
 			    }
 		  	});
-	  	});
+	  	}
+
 	}
 });

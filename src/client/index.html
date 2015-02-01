@@ -1,15 +1,20 @@
  <!DOCTYPE html>
-<html>
+<html >
 
 <head>
 <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular.min.js"></script>
+<script src="http://angular-ui.github.io/ui-router/release/angular-ui-router.js"></script>
+<script src="/share/jsextension.js"></script>
+
 <script src="/node_modules/requirejs/require.js" data-main="/client/main"></script>
+
+
+<script type="text/javascript">
+	var core = angular.module('core', ['ui.router']);
+</script>
+<script src="/client/layout/default/default.js"></script>
 </head>
 <body>
-<div ng-app="">
-  <p>Name: <input type="text" ng-model="name"></p>
-  <p ng-bind="name"></p>
-</div>
-
+	<div ng-include="'/client/layout/default/default.html'"></div>
 </body>
 </html> 

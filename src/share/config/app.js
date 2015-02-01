@@ -1,7 +1,7 @@
 /*
 this file containt the configuration for both client and server side
 */
-define(["share/config/modules"],function(modules){
+define(["server/config/modules"],function(modules){
 	var appConfig={
 			client:{
 				//relative folder that content client code
