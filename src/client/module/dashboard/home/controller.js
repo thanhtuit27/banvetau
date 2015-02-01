@@ -1,5 +1,10 @@
 define(function(){
-	dashboard.controller('homeController', ['$scope', function($scope) {
-		this.name="Home page";
-	}]);
+	angular.module("dashboard").controller('homeController', Controller);
+
+	Controller.$inject=['$scope'];
+	
+	function Controller($scope){
+		var vm=this;
+		vm.name="name fo homepage controller ne";
+	 }
 });

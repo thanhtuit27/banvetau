@@ -22,34 +22,10 @@ define([
 		  	$stateProvider.state(route.state, {
 		      url: route.url,
 		      templateUrl: route.template,
-		      controller:function(){
-		      	this.name="test data";
-		      }
+		      controller: route.controller,
+		      controllerAs: 'vm'
 		    })
 		  });		  
-		  /*$stateProvider
-		    .state('state1', {
-		      url: "/state1",
-		      templateUrl: "/client/layout/default/state1.html"
-		    })
-		    .state('state1.list', {
-		      url: "/list",
-		      templateUrl: "/client/layout/default/state1.list.html",
-		      controller: function($scope) {
-		        $scope.items = ["A", "List", "Of", "Items"];
-		      }
-		    })
-		    .state('state2', {
-		      url: "/state2",
-		      templateUrl: "/client/layout/default/state2.html"
-		    })
-		    .state('state2.list', {
-		      url: "/list",
-		      templateUrl: "/client/layout/default/state2.list.html",
-		      controller: function($scope) {
-		        $scope.things = ["A", "Set", "Of", "Things"];
-		      }
-		    });*/
 		});
 	}
 

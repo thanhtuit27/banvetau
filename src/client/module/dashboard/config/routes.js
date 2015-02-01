@@ -6,7 +6,7 @@ define([
 
 	function getRoutes(){
 		var routes=[
-			{state:"dashboard", url:"/dashboard", template:"/client/module/dashboard/home/view.html", handler:"homeController" }
+			{state:"dashboard", url:"/dashboard", template:"/client/module/dashboard/home/view.html", controller:"homeController" }
 		];
 		return routes;
 	}
