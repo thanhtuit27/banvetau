@@ -2,17 +2,20 @@
 <html >
 
 <head>
+<link href="http://dsvn.vn/content/ETicket-1.0.11.css" type="text/css" rel="stylesheet">
+
 <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular.min.js"></script>
 <script src="http://angular-ui.github.io/ui-router/release/angular-ui-router.js"></script>
 <script src="/share/jsextension.js"></script>
-
-<script src="/node_modules/requirejs/require.js" data-main="/client/main"></script>
-
-
 <script type="text/javascript">
 	var core = angular.module('core', ['ui.router']);
 </script>
+<script src="/client/layout/default/directive/footer/controller.js"></script>
+<script src="/client/layout/default/directive/menu/controller.js"></script>
+<script src="/client/layout/default/directive/banner/controller.js"></script>
 <script src="/client/layout/default/default.js"></script>
+
+<script src="/node_modules/requirejs/require.js" data-main="/client/main"></script>
 </head>
 <body>
 	<div ng-include="'/client/layout/default/default.html'"></div>

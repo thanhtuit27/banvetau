@@ -1,4 +1,4 @@
-var dashboard = angular.module('dashboard', ['ui.router', 'core']);
+var dashboard = angular.module('dashboard', ['ui.router','core']);
 define([
 		"client/module/dashboard/config/module", 
 		"client/module/dashboard/config/routes"

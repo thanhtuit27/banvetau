@@ -13,6 +13,7 @@ define([
 	logger.info("Module configuration ...");
 	var moduleName = appConfig.defaultModule;
 	var defaultModule=String.format("client/module/{0}/index", moduleName);
+
 	require([defaultModule],function(module){
 		module.init();
 		angular.element(document).ready(function () {

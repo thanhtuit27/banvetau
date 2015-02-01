@@ -1,0 +1,1 @@
+define(["client/layout/default/directive/banner/controller"], function(){});
