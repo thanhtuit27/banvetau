@@ -1,4 +1,7 @@
-define(function(){
+define([
+		"client/module/dashboard/home/directive/tourquicksearch/controller",
+		//"client/module/dashboard/home/directive/shoppingcart/controller"
+	],function(){
 	angular.module("dashboard").controller('homeController', Controller);
 
 	Controller.$inject=['$scope'];

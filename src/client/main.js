@@ -5,7 +5,8 @@ define([
 	'share/helper/configurationHelper',
 	'share/model/enums',
 	'client/config/app',
-	'client/config/ioc'
+	'client/config/ioc',
+	'client/module/common/index'
 ],function(configHelper, enums, appConfig){
 	ioc = configHelper.configIoC({type:enums.applicationType.client});
 	

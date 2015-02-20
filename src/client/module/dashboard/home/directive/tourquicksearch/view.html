@@ -1,0 +1,35 @@
+<div style="margin-bottom: 5px" class="et-col-md-12 et-widget">
+    <div class="row et-widget-header">
+        <img src="http://dsvn.vn/images/widgetIcon.png">
+        <span><strong>Thông tin hành trình</strong></span>
+    </div>
+    <form-input model="vm" field="from" mode="simple" label="Ga di"></form-input>
+    <form-input model="vm" field="to"  mode="simple" label="Ga den"></form-input>
+    <form-radio-group>
+        <form-radio-option label="Luot di" selected=true value="1"></form-radio-option>
+        <form-radio-option label="Luot ve" value="2"></form-radio-option>
+    </form-radio-group>
+    <div class="form-group">
+        <h6>Ngày đi</h6>
+        <div class="input-group">
+            <input type="text">
+            <span class="input-group-btn">
+                <button style="padding: 3px 8px" class="btn btn-primary btn-sm" type="button">
+                    <i style="font-size: 18px" class="glyphicon glyphicon-calendar"></i>
+                </button>
+            </span>
+        </div>
+    </div>
+    <div class="form-group">
+        <h6>Ngày về</h6>
+        <div class="input-group">
+            <input type="text">
+            <span class="input-group-btn">
+                <button style="padding: 3px 8px" class="btn btn-primary btn-sm" type="button" disabled="disabled">
+                    <i style="font-size: 18px" class="glyphicon glyphicon-calendar"></i>
+                </button>
+            </span>
+        </div>
+    </div>
+    <div class="row text-center"><a class="et-btn" href="" ng-click="vm.doSearch()">Tìm kiếm</a></div>
+</div>
