@@ -1,0 +1,32 @@
+define(function(){
+	var dataService = {
+		get:get
+	};
+	return dataService;
+	function get(url, options){
+		var def=new $.Deferred();
+		$.get(url, function(response){
+			if(!response || response.errors){
+				handlingError(response, url, options);
+				def.reject();
+			}
+			def.resolve(response.data);
+		}).fail(function(response){
+			handlingError(response, url, options);
+		});
+		return def;
+	}
+
+
+	function handlingError(response, url, options){
+		var logger=ioc.resolve("ILogger");
+		if(!response || !response.errors || response.errors.length<=0){
+			logger.error("General exception when calling to '{0}' with '{1}' option", url, options);
+			return;
+		}
+		logger.error("Exception when calling to '{0}' with '{1}' option as below:", url, options);
+		errors.forEach(function(error){
+			logger.error(error);
+		});
+	}
+});

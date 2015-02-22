@@ -23,3 +23,6 @@ requirejs([
 	logger.info("The app is ready for use");
 });
 
+
+
+
