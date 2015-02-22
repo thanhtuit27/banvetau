@@ -54,6 +54,7 @@ Array.prototype.removeItem = function(item) {
 };
 
 /* Extension for string*/
+String.empty="";
 /*
 Format the string. Using String.Format("{0}-{1}","1","2")="1-2"
 */
@@ -71,7 +72,6 @@ String.format = function() {
     }
     return inputStr;
 };
-
 String.prototype.toDateTimeFormat = function(format) {
     var date = new Date(this);
     return date.format(format);

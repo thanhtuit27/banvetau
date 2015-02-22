@@ -3,6 +3,8 @@ define([
 	"client/module/common/directive/formcontrol/formradiooption/controller",
 	"client/module/common/directive/formcontrol/formradiogroup/controller",
 	
+	"client/module/common/directive/formcontrol/formbutton/controller",
+	"client/module/common/directive/formcontrol/formdatepicker/controller",
 	"client/module/common/directive/formcontrol/forminput/controller",
 	"client/module/common/directive/formcontrol/panel/controller",
 

@@ -1,35 +1,11 @@
-<div style="margin-bottom: 5px" class="et-col-md-12 et-widget">
-    <div class="row et-widget-header">
-        <img src="http://dsvn.vn/images/widgetIcon.png">
-        <span><strong>Thông tin hành trình</strong></span>
-    </div>
-    <form-input model="vm" field="from" mode="simple" label="Ga di"></form-input>
-    <form-input model="vm" field="to"  mode="simple" label="Ga den"></form-input>
-    <form-radio-group>
-        <form-radio-option label="Luot di" selected=true value="1"></form-radio-option>
-        <form-radio-option label="Luot ve" value="2"></form-radio-option>
+<panel title="{{'dashboard.home.tourQuickSearch.title'|i18n}}">
+    <form-input model="vm.model" field="from" mode="simple" label="{{'dashboard.home.tourQuickSearch.from'|i18n}}"></form-input>
+    <form-input model="vm.model" field="to"  mode="simple" label="{{'dashboard.home.tourQuickSearch.to'|i18n}}"></form-input>
+    <form-radio-group model="vm.model" field="ticketType">
+        <form-radio-option label="{{'dashboard.home.tourQuickSearch.ticketTye.leave'|i18n}}" value="1"></form-radio-option>
+        <form-radio-option label="{{'dashboard.home.tourQuickSearch.ticketTye.arrive'|i18n}}" value="2"></form-radio-option>
     </form-radio-group>
-    <div class="form-group">
-        <h6>Ngày đi</h6>
-        <div class="input-group">
-            <input type="text">
-            <span class="input-group-btn">
-                <button style="padding: 3px 8px" class="btn btn-primary btn-sm" type="button">
-                    <i style="font-size: 18px" class="glyphicon glyphicon-calendar"></i>
-                </button>
-            </span>
-        </div>
-    </div>
-    <div class="form-group">
-        <h6>Ngày về</h6>
-        <div class="input-group">
-            <input type="text">
-            <span class="input-group-btn">
-                <button style="padding: 3px 8px" class="btn btn-primary btn-sm" type="button" disabled="disabled">
-                    <i style="font-size: 18px" class="glyphicon glyphicon-calendar"></i>
-                </button>
-            </span>
-        </div>
-    </div>
-    <div class="row text-center"><a class="et-btn" href="" ng-click="vm.doSearch()">Tìm kiếm</a></div>
-</div>
+    <form-date-picker model="vm.model" mode="simple" field="fromDate" label="{{'dashboard.home.tourQuickSearch.fromDate'|i18n}}" ></form-date-picker>
+    <form-date-picker model="vm.model" mode="simple" field="toDate" label="{{'dashboard.home.tourQuickSearch.toDate'|i18n}}" ></form-date-picker>
+    <form-button type="primary" label="{{'dashboard.home.tourQuickSearch.search'|i18n}}" on-click="vm.doSearch(vm.model)"/>
+</panel>

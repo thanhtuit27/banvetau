@@ -1,6 +1,7 @@
 define(function(){
 	var config={
-		defaultModule:"dashboard"
+		defaultModule:"dashboard",
+		languageCode:"vn"
 	};
 	return config;
 });

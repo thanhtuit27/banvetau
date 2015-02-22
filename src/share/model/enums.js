@@ -3,6 +3,10 @@ define(function(){
 		applicationType:{
 			client:"client",
 			server:"server"
+		},
+		appMode:{
+			debug:"debug",
+			release:"release"
 		}
 	};
 	return enums;

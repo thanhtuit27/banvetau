@@ -14,6 +14,16 @@ define(function(){
 	  	app.get('*.html', function (req, res) {
 			downloadFile(req, res);
 	  	});
+	  	app.get('*.css', function (req, res) {
+			downloadFile(req, res);
+	  	});
+	  	app.get('*.js.map', function (req, res) {
+			downloadFile(req, res);
+	  	});
+	  	app.get('*.png', function (req, res) {
+			downloadFile(req, res);
+	  	});
+
 	  	function downloadFile(req, res){
 	  		var fileName=req.originalUrl;
 			var options = {

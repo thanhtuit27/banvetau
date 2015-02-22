@@ -1,6 +1,6 @@
 <div class="form-group" ng-if="vm.isSimpleMode()">
     <label>{{label}}</label>
-    <input type="text" placeholder="Ga đi" ng-model="vm.value" ng-change="vm.onChange()" />
+    <input type="text" placeholder="{{label}}" ng-model="vm.value" ng-change="vm.onChange()" />
 </div>
 <div class="form-group" ng-if="vm.isAdvanceMode()">
      <label class="col-sm-2 control-label">{{label}}</label>
