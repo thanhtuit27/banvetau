@@ -33,6 +33,9 @@ System = {
     },
     isObject: function(obj) {
         return obj instanceof Object;
+    },
+    emptyFn:function(){
+        return function(){};
     }
 };
 
@@ -79,7 +82,9 @@ String.prototype.toDateTimeFormat = function(format) {
 String.isNullOrWhiteSpace = function(value) {
     return !value || value === '';
 };
-
+String.prototype.isExist=function(text){
+    return this.indexOf(text)>=0;
+}
 String.prototype.isEqual = function(valueToCompare) {
     var isEqual = true;
     switch (typeof valueToCompare) {

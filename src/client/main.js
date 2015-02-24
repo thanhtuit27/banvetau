@@ -9,6 +9,7 @@ define([
 	'client/config/ioc',
 	'client/module/common/index'
 ],function(moduleHelper, configHelper, enums, appConfig){
+
 	ioc = configHelper.configIoC({type:enums.applicationType.client});
 	
 	var logger=ioc.resolve("ILogger");

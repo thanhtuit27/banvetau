@@ -24,7 +24,7 @@ define([
 	 	logger.info(searchOptions);
 
 	 	this.searchOptions=searchOptions;
-	 	loadTours(vm);
+	 	loadTours(this);
 	 }
 	 function loadSearchOption(vm){
 	 	var localStore = ioc.resolve("ILocalStore");
