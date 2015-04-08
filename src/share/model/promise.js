@@ -57,6 +57,7 @@ define(function(){
 				if(failCallback){
 					callback.fail=failCallback;
 				}
+				processCallback();
 				/*if(status===promiseStatus.none){
 					return;
 				}

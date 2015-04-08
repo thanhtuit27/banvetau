@@ -75,6 +75,18 @@ String.format = function() {
     }
     return inputStr;
 };
+/*
+this function will convert from single format to plural format
+For example:
+    user -> users
+    apple -> apples
+
+
+    TODO: Will refactor later
+*/
+String.prototype.toPlural = function() {
+    return this+"s";
+};
 String.prototype.toDateTimeFormat = function(format) {
     var date = new Date(this);
     return date.format(format);

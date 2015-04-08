@@ -29,7 +29,7 @@ define([
 			return;
 		}
 		logger.error("Exception when calling to '{0}' with '{1}' option as below:", url, options);
-		errors.forEach(function(error){
+		response.errors.forEach(function(error){
 			logger.error(error);
 		});
 	}
