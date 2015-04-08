@@ -6,10 +6,11 @@ define([
 	};
 	return handler;
 	function get(req, res){
-		var params = "";
+		var logger=GLOBAL.ioc.resolve("ILogger");
+		logger.info("Request was procesed by '#{0}' pid", process.pid);
+		var params = req.params;
+		logger.info("Params", req.params);
 		tourQueryService.getTours().then(function(responseMessage){
-			var logger=GLOBAL.ioc.resolve("ILogger");
-			logger.info("Request was procesed by '#{0}' pid", process.pid);
 			res.json(responseMessage.toJson());	
 		});
 	}
