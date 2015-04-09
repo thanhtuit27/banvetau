@@ -15,6 +15,7 @@ define([
 	function where(options){
 		var def=GLOBAL.ioc.resolve("Promise").create();
 		var query = builder.getQueryParams(options);
+		//console.log("Tour query:", query);
 		var model = builder.getModel(toursSchema);
 		model.find(query, function(errors, items){
 			var responseMessage = responseMessageFactory.create();
