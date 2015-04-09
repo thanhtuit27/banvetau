@@ -1,19 +1,21 @@
 define([
-	'share/model/queryable/iqueryable'
+	'server/module/common/models/queryable/iqueryable'
 	],function(iqueryableFactory){
+	
 	var context={
 		create: create
 	};
 	return context;
 
-	function create(schema){
-		if(String.isNullOrWhiteSpace(schema)){ throw "Schema can not be empty.";}
-		schema=schema.toPlural();
-		return new Context(schema);
-		function Context(){
+	function create(schemaOptions){
+		if(!schemaOptions){ throw "Schema can not be empty.";}
+		schemaOptions.name=schemaOptions.name.toPlural();
+		return new Context(schemaOptions);
+		function Context(schemaOptions){
 			var self=this;
-			self[schema]=iqueryableFactory.create(schema);
-
+			var contextResolver = GLOBAL.ioc.resolve("IContextResolver");
+			self[schemaOptions.name]= contextResolver.resolve(schemaOptions);
+			//console.log("Resolver ne",self[schemaOptions.name]);
 			return self;
 		}
 	}

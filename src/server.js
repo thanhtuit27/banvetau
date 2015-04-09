@@ -20,14 +20,18 @@ if (cluster.isMaster) {
 
 	var requirejs=require('requirejs');
 	var consolidate=require("consolidate");
+	GLOBAL.mongodb = require('mongoose');
 	var app=new express();
 
 	requirejs([
 		'./share/helper/configurationHelper',
-		"./share/helper/appHelper"
-	], function(configHelper, appHelper){
-		var ioc = configHelper.configIoC();
+		"./share/helper/appHelper",
+		'share/model/enums'
+	], function(configHelper, appHelper, enums){
+		var ioc = configHelper.configIoC({type:enums.applicationType.server});
 		GLOBAL.ioc = ioc;
+		GLOBAL.logger = ioc.resolve("ILogger");
+
 
 		var logger=ioc.resolve("ILogger");
 		logger.info("Configuring the app ...");

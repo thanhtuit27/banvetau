@@ -11,23 +11,23 @@ define([
 
 	function getTours(options){
 		console.log("in tourRepository.getTours");
-		var schema="Tour";
+		var schemaOptions={name:"Tour", type:"Query"};
 		var def=GLOBAL.ioc.resolve("Promise").create();
 		var logger=GLOBAL.ioc.resolve("ILogger");
 		var queryResponseMessage = queryResponseMessageFactory.create();
 		var errors=getToursValidation(options);
+		
 		if(errors.length>0){
 			queryResponseMessage.addErrors(errors);
 			queryResponseMessage.setStatus(enums.http.httpStatus.expectationFailed);
 			def.resolve(queryResponseMessage);
 			return def;
 		}
-		var query = queryBuilder.createQuery(options);
-		var context= dbContextFactory.create(schema);
-		context.Tours.where(query).then(function(response){
+		
+		var context= dbContextFactory.create(schemaOptions);
+		context.Tours.where(options).then(function(response){
 			queryResponseMessage.setData(response.toJson());
-			console.log("in tourRepository.getTours.then", queryResponseMessage);
-
+			console.log("in tourRepository.getTours.then", queryResponseMessage.toJson());
 			def.resolve(queryResponseMessage);
 		});
 

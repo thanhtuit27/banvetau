@@ -1,6 +1,6 @@
 define([], function() {
     var iocItems = [
-    	//{ type: 'IQueryService', name:"Tour", instanceOf: "server/module/tours/query/tourQueryService"},
+    	{ type: 'IContextResolver', instanceOf: "server/module/common/context/contextResolver"},
     ];
     return iocItems;
 });

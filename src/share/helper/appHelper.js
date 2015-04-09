@@ -15,10 +15,13 @@ define([
 
 		configViews(app);
 		logger.info("view Configuration was done ...");
+
 		configViewEngine(app)
 		logger.info("Engine Configuration was done ...");
+
 		configHanders(app, handlers);
 		logger.info("Handlers Configuration was done ...");
+		
 		startApp(app);
 		logger.info("The app was started ...");
 	}

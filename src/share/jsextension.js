@@ -2,7 +2,27 @@
 Define all extention for js object in this file
 */
 
+Object.clone=function(instance){
+    var emptyFn=new (System.emptyFn())();
+    for (var property in instance) {
+        emptyFn[property]=instance[property];
+    };
+    //console.log("data after clone:", emptyFn);
+    return emptyFn;
+}
 System = {
+    inheritInstance:function(parentInstance, childInstance){
+        var func=Object.clone(childInstance);
+        //console.log("data after clone:", func.constructor);
+        func.__proto__ = Object.clone(parentInstance);
+        //func.constructor.prototype.constructor=func.constructor;
+        //console.log("After inherit:", func.data);
+        return func;
+    },
+    inherit:function(parentInstance, childConstructor){
+        childConstructor.prototype = parentInstance;
+        childConstructor.prototype.constructor=childConstructor;
+    },
     toJson:function(obj, deepLevel, currentLevel){
         try{
             deepLevel = deepLevel?deepLevel:2;
