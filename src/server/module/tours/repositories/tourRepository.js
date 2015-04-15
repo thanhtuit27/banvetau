@@ -2,19 +2,33 @@ define([
 	"server/module/common/builder/queryBuilder",
 	"server/module/common/context/dbContext",
 	"server/module/common/models/http/responseMessage",
-	"share/model/enums"
-	],function(queryBuilder, dbContextFactory, queryResponseMessageFactory, enums){
+	"share/model/enums",
+	"server/module/tours/schema/mssql/tourMasterInfo"
+	],function(queryBuilder, dbContextFactory, responseMessageFactory, enums, tourSchemaFactory){
 	var respository={
-		getTours:getTours
+		getTours:getTours,
+		createTour:createTour
 	};
 	return respository;
 
+	function createTour(tourAggreate,context){
+		var def=GLOBAL.ioc.resolve("Promise").create();
+		
+		var tourInfo = tourSchemaFactory.create(tourAggreate);
+		GLOBAL.logger.info("Tourinfo master info:{0}", tourInfo);
+		context.Tours.add(tourInfo).then(function(responseMessage){
+			def.resolve(responseMessage);
+		});
+
+		GLOBAL.logger.info("createTour in tourRepository");
+		return def;
+	}
 	function getTours(options){
 		console.log("in tourRepository.getTours");
 		var schemaOptions={name:"Tour", type:"Query"};
 		var def=GLOBAL.ioc.resolve("Promise").create();
 		var logger=GLOBAL.ioc.resolve("ILogger");
-		var queryResponseMessage = queryResponseMessageFactory.create();
+		var queryResponseMessage = responseMessageFactory.create();
 		var errors=getToursValidation(options);
 		
 		if(errors.length>0){
@@ -26,9 +40,7 @@ define([
 		
 		var context= dbContextFactory.create(schemaOptions);
 		context.Tours.where(options).then(function(response){
-			queryResponseMessage.setData(response.toJson());
-			//console.log("in tourRepository.getTours.then", queryResponseMessage.toJson());
-			def.resolve(queryResponseMessage);
+			def.resolve(response);
 		});
 
 		return def;

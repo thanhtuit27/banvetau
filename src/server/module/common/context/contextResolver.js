@@ -11,6 +11,7 @@ define([
 		var hash= hashFactory.create();
 		hash.load("key", contextConfigs);
 		var contextInstance = requirejs(hash.get(getKey(options)).instanceOf);
+		GLOBAL.logger.info("resolve in contextResolver,options:{0}, context:{1}",options, contextInstance);
 		return contextInstance;
 	}
 

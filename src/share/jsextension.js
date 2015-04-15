@@ -11,6 +11,15 @@ Object.clone=function(instance){
     return emptyFn;
 }
 System = {
+    extend:function(dest,source){
+        var result = Object.clone(dest);
+        if(source){
+            for (var property in source) {
+                result[property]=source[property];
+            };
+        }
+        return result;
+    },
     inheritInstance:function(parentInstance, childInstance){
         var func=Object.clone(childInstance);
         //console.log("data after clone:", func.constructor);
@@ -56,9 +65,13 @@ System = {
     },
     emptyFn:function(){
         return function(){};
-    }
+    },
+    emptyObj:{}
 };
 
+Array.any=function(array){
+    return array && array.length>0;
+}
 Array.prototype.copyFrom = function(arr, startIndex, count) {
     if (!arr) {
         return;

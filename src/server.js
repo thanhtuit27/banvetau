@@ -22,6 +22,9 @@ if (cluster.isMaster) {
 	var consolidate=require("consolidate");
 	GLOBAL.mongodb = require('mongoose');
 	var app=new express();
+	var bodyParser = require('body-parser')
+	app.use( bodyParser.json() );
+	app.use(bodyParser.urlencoded({extended: true})); 
 
 	requirejs([
 		'./share/helper/configurationHelper',

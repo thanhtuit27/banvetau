@@ -10,7 +10,15 @@ define([
 	return handler;
 
 	function config(app){
+		//configNodePlugins(app);
 		configRoutes(app, appConfig);
+	}
+	function configNodePlugins(app){
+		var bodyParser = require('body-parser');
+		var multer = require('multer'); 
+		app.use(bodyParser.json());
+		app.use(bodyParser.urlencoded({ extended: true }));
+		app.use(multer());
 	}
 	function configRoutes(app, appConfig){
 		appConfig.server.modules.forEach(function(module){
