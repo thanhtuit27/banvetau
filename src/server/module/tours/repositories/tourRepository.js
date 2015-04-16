@@ -7,16 +7,17 @@ define([
 	],function(queryBuilder, dbContextFactory, responseMessageFactory, enums, tourSchemaFactory){
 	var respository={
 		getTours:getTours,
-		createTour:createTour
+		createTour:createTour,
+		context:null
 	};
 	return respository;
 
-	function createTour(tourAggreate,context){
+	function createTour(tourAggreate){
 		var def=GLOBAL.ioc.resolve("Promise").create();
-		
 		var tourInfo = tourSchemaFactory.create(tourAggreate);
-		GLOBAL.logger.info("Tourinfo master info:{0}", tourInfo);
-		context.Tours.add(tourInfo).then(function(responseMessage){
+		GLOBAL.logger.info("Adding Tour into repository ...");
+		respository.context.Tours.add(tourInfo).then(function(responseMessage){
+			GLOBAL.logger.info("Tour was added into repository:{0}", responseMessage);
 			def.resolve(responseMessage);
 		});
 

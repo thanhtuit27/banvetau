@@ -7,7 +7,8 @@ define(function(){
 	function create(tourAggreate){
 		return TourMasterInfo(tourAggreate);
 		function TourMasterInfo(tourAggreate){
-			var self = this;
+			GLOBAL.logger.info("Creating new master data item from:{0}", tourAggreate)
+			var self = {};
 			self.name = tourAggreate.baseInfo.name;
 			self.id = tourAggreate.baseInfo.id;
 			self.locationFromId = tourAggreate.locationFrom.id;
@@ -15,6 +16,7 @@ define(function(){
 			self.locationToId = tourAggreate.locationTo.id;
 			self.arriveOn = tourAggreate.locationTo.arriveOn;
 			self.trainId = tourAggreate.trainInfo.id;
+			self.schema={table:"Tours"};
 			return self;
 		}
 	}

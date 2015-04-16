@@ -1,8 +1,7 @@
-
 GLOBAL.baseDir=__dirname;
 require('./share/jsextension');
 var cluster = require('cluster');
-if (cluster.isMaster) {
+/*if (cluster.isMaster) {
 
     // Count the machine's CPUs
     var cpuCount = require('os').cpus().length;
@@ -11,7 +10,7 @@ if (cluster.isMaster) {
     for (var i = 0; i < cpuCount; i += 1) {
         cluster.fork();
     }
-}else{
+}else{*/
 
 	GLOBAL.promise=require("node-promise");
 
@@ -21,6 +20,9 @@ if (cluster.isMaster) {
 	var requirejs=require('requirejs');
 	var consolidate=require("consolidate");
 	GLOBAL.mongodb = require('mongoose');
+
+	GLOBAL.db={mssql : require('mssql')}; 
+	
 	var app=new express();
 	var bodyParser = require('body-parser')
 	app.use( bodyParser.json() );
@@ -41,6 +43,4 @@ if (cluster.isMaster) {
 		appHelper.config(app);
 		logger.info("The app is ready for use");
 	});
-}
-
-
+//}

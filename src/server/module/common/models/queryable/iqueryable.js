@@ -7,9 +7,9 @@ define([
 	return factory;
 
 	function create(){
-		return new Queryable();
+		return Queryable();
 		function Queryable(){
-			var self=this;
+			var self={};
 			self.data=[];
 			self.where = where;
 			self.select= select;
@@ -17,7 +17,7 @@ define([
 			self.count = count;
 			self.toJson = toJson;
 			self.add=add;
-			return this;
+			return self;
 			function add(dataItem){}
 			function toJson(){
 				return this.data;

@@ -1,7 +1,13 @@
 /*
 Define all extention for js object in this file
 */
-
+Object.toJson=function(obj){
+    var value="";
+    for(var property in obj){
+        value = String.format("{0},{1}:{2}", value, property, obj[property]);
+    }
+    return value;
+}
 Object.clone=function(instance){
     var emptyFn=new (System.emptyFn())();
     for (var property in instance) {
@@ -56,7 +62,7 @@ System = {
     },
     getVal: function(obj) {
         if (System.isObject(obj)) {
-            return JSON.stringify(obj);
+            return System.toJson(obj, 0);
         }
         return System.isFunction(obj) ? obj() : obj;
     },
@@ -145,6 +151,22 @@ String.prototype.isEqual = function(valueToCompare) {
     }
     return isEqual;
 };
+String.removeLast = function (str, text) {
+    if(!str.isExist(text)){
+        return str;
+    }
+    var lastIndex = str.lastIndexOf(text);
+    return str.substring(0, lastIndex);
+}
+
+String.removeFirst = function (str, text) {
+    if(!str.isExist(text)){
+        return str;
+    }
+    var index = str.indexOf(text) + text.length;
+    return str.substring(index , str.length);
+}
+
 String.prototype.capitalize = function () {
     return this.charAt(0).toUpperCase() + this.slice(1);
 };

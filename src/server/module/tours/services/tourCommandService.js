@@ -1,10 +1,10 @@
 define([
 	"server/module/common/models/http/responseMessage",
-	"server/module/common/context/dbContext",
+	"server/module/common/context/unitOfWork",
 	"server/module/tours/repositories/tourRepository",
 	"server/module/tours/aggregate/tour",
 	"share/model/enums",
-	],function(responseMessageFactory, dbContextFactory, tourRepository, tourAggregateFactory, enums){
+	],function(responseMessageFactory, unitOfWorkFactory, tourRepository, tourAggregateFactory, enums){
 	var command={
 		createTour: createTour
 	};
@@ -24,19 +24,24 @@ define([
 		}
 
 		var schemaOptions={name:"Tour", type:"Command"};
-		var unitOfWork = dbContextFactory.createUnitOfWork(schemaOptions);
-			var tourAggregate = tourAggregateFactory.create(
-				createTourCommand.baseInfo,
-				createTourCommand.locationFrom,
-				createTourCommand.locationTo,
-				createTourCommand.trainInfo
-			);
-			//consider if responseMessage should come from commit method
-			tourRepository.createTour(tourAggregate, unitOfWork.context).then(function(responseMessage){
-				unitOfWork.commit().then(function(){
-					def.resolve(responseMessage);
-				});
+		var unitOfWork = unitOfWorkFactory.create(schemaOptions);
+		GLOBAL.logger.info("UnitOfWork:{0}", unitOfWork);
+
+		var tourAggregate = tourAggregateFactory.create(
+			createTourCommand.baseInfo,
+			createTourCommand.locationFrom,
+			createTourCommand.locationTo,
+			createTourCommand.trainInfo
+		);
+		GLOBAL.logger.info("tourAggregate:{0}", tourAggregate);
+		//consider if responseMessage should come from commit method
+		GLOBAL.logger.info("tourCommandService: Context:{0}", unitOfWork.context.Tours);
+		tourRepository.context = unitOfWork.context;
+		tourRepository.createTour(tourAggregate).then(function(responseMessage){
+			unitOfWork.commit().then(function(){
+				def.resolve(responseMessage);
 			});
+		});
 		return def;
 	}
 
