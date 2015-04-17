@@ -1,6 +1,6 @@
 define([
 	"server/module/common/builder/queryBuilder",
-	"server/module/common/context/dbContext",
+	"server/module/common/context/mongodb/baseContext",
 	"server/module/common/models/http/responseMessage",
 	"share/model/enums",
 	"server/module/tours/schema/mssql/tourMasterInfo"
