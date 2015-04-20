@@ -17,7 +17,7 @@ define(["share/model/collection/hash"],function (hashFactory) {
         function resolve(type, name) {
             var key = getKey(type, name);
             if (!registeredItems.get(key)) {
-                return null;
+                return String.isNullOrWhiteSpace(name)?null : resolve(type);
             }
             var item = registeredItems.get(key);
             if (item.isInstantiated === true) {
@@ -25,7 +25,6 @@ define(["share/model/collection/hash"],function (hashFactory) {
             }
             item = createInstance(item);
             registeredItems.update(key, item);
-
             return item.instance;
         }
         /*

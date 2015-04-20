@@ -14,14 +14,20 @@ define([
 
 	function createTour(tourAggreate){
 		var def=GLOBAL.ioc.resolve("Promise").create();
-		var tourInfo = tourSchemaFactory.create(tourAggreate);
+		var tourDto = tourSchemaFactory.create(tourAggreate);
 		GLOBAL.logger.info("Adding Tour into repository ...");
-		respository.context.Tours.add(tourInfo).then(function(responseMessage){
+		respository.context.Tours.add(tourDto).then(function(responseMessage){
 			GLOBAL.logger.info("Tour was added into repository:{0}", responseMessage);
+			/*Need to publish event to listener*/
+			var eventPublisher = GLOBAL.ioc.resolve("IEventPublisher", "Tour");
+			eventPublisher.publish({name:"TourCreated", data: tourDto});
+			/*End Event publishing*/
+
 			def.resolve(responseMessage);
 		});
-
 		GLOBAL.logger.info("createTour in tourRepository");
+
+
 		return def;
 	}
 	function getTours(options){

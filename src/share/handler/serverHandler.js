@@ -1,7 +1,9 @@
 define([
 	'share/config/app',
-	'share/helper/routeHelper'
-],function(appConfig, routeHelper){
+	'share/helper/routeHelper',
+	'server/module/common/event/eventSubscriberManager',
+	'server/config/eventHandler'
+],function(appConfig, routeHelper, subscriberManager, eventHandlers){
 	var handler={
 		name:"serverHandler",
 		description:"Handle request API from client app",
@@ -12,7 +14,13 @@ define([
 	function config(app){
 		//configNodePlugins(app);
 		configRoutes(app, appConfig);
+		configSubscriber();
 	}
+
+	function configSubscriber(){
+		subscriberManager.registerHandlers(eventHandlers);
+	}
+
 	function configNodePlugins(app){
 		var bodyParser = require('body-parser');
 		var multer = require('multer'); 

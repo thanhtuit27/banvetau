@@ -87,6 +87,12 @@ Array.prototype.copyFrom = function(arr, startIndex, count) {
     }
     return this;
 };
+Array.prototype.pushArray = function(items) {
+    var self = this;
+    items.forEach(function(item){
+        self.push(item);
+    });
+}
 Array.prototype.removeItem = function(item) {
     var index = this.indexOf(item);
     if (index > -1) {
