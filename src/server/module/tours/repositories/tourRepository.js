@@ -20,7 +20,7 @@ define([
 			GLOBAL.logger.info("Tour was added into repository:{0}", responseMessage);
 			/*Need to publish event to listener*/
 			var eventPublisher = GLOBAL.ioc.resolve("IEventPublisher", "Tour");
-			eventPublisher.publish({name:"TourCreated", data: tourDto});
+			eventPublisher.publish({name:"TourCreated", data: tourAggreate});
 			/*End Event publishing*/
 
 			def.resolve(responseMessage);

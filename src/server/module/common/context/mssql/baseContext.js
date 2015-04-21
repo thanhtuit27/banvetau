@@ -22,11 +22,28 @@ define([
 				if(schemaOptions){
 					GLOBAL.logger.info("MSSQLBaseContext:Resolving content resolver");
 					var contextResolver = GLOBAL.ioc.resolve("IContextResolver");
-					schemaOptions.name=schemaOptions.name.toPlural();
+					
 					GLOBAL.logger.info("MSSQLBaseContext:contextResolver:{0}, options:{1}", contextResolver, schemaOptions);
-					self.addContext(schemaOptions.name, contextResolver.resolve(schemaOptions));
+
+					loadContext(self, schemaOptions);
+					
 				}
 				return self;
+
+
+				function loadContext(self, contextOptions){
+					
+					contextOptions.name=contextOptions.name.toPlural();
+					var context = contextResolver.resolve(contextOptions);
+					self.addContext(contextOptions.name, context.instance);
+					if(Array.any(context.dependOn)){
+						context.dependOn.forEach(function(dependOnItem){
+							loadContext(self, dependOnItem);
+							//var dependContext = contextResolver.resolve(dependOnItem);
+							//self.addContext(dependOnItem.name, dependContext.instance);
+						});
+					}
+				}
 				/*if(startNewTransaction && startNewTransaction===true){
 					mssqlConnection.createTransaction();
 				}*/

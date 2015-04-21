@@ -75,8 +75,15 @@ System = {
     emptyObj:{}
 };
 
+
 Array.any=function(array){
     return array && array.length>0;
+}
+Array.prototype.where=function(callback){
+    for(var index=0; index< this.length; index++){
+        if(!callback(this[index])){continue;}
+        return this[index];
+    }
 }
 Array.prototype.copyFrom = function(arr, startIndex, count) {
     if (!arr) {
@@ -127,10 +134,18 @@ For example:
     apple -> apples
 
 
-    TODO: Will refactor later
+    TODO: Will refactor later to handle y case
 */
 String.prototype.toPlural = function() {
-    return this+"s";
+    var value = this+"";
+    if(!value.endWith("s") && !value.endWith("es") && !value.endWith("y")){
+        value = value+'s';
+    }
+
+    //if(value.endWith("y")){
+      //  value = value.removeLast("y")+"ies";
+    //}
+    return value;
 };
 String.prototype.toDateTimeFormat = function(format) {
     var date = new Date(this);
@@ -187,7 +202,9 @@ str.EndWith('hero')=true;
 str.EndWith('her')=false;
 */
 String.prototype.endWith = function(suffix) {
-    return (this.substr(this.length - suffix.length) === suffix);
+    var value=this.substr(this.length - suffix.length);
+    console.log("endWith", value, suffix);
+    return (value === suffix);
 };
 
 /*

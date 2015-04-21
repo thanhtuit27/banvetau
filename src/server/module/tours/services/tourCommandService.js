@@ -33,6 +33,8 @@ define([
 			createTourCommand.locationTo,
 			createTourCommand.trainInfo
 		);
+
+		tourAggregate.constructor(unitOfWork.context);
 		GLOBAL.logger.info("tourAggregate:{0}", tourAggregate);
 		//consider if responseMessage should come from commit method
 		GLOBAL.logger.info("tourCommandService: Context:{0}", unitOfWork.context.Tours);

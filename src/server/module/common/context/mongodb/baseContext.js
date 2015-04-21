@@ -24,9 +24,20 @@ define([
 					var contextResolver = GLOBAL.ioc.resolve("IContextResolver");
 					schemaOptions.name=schemaOptions.name.toPlural();
 					GLOBAL.logger.info("MongoBaseContext:contextResolver:{0}, options:{1}", contextResolver, schemaOptions);
-					self.addContext(schemaOptions.name, contextResolver.resolve(schemaOptions));
+					//self.addContext(schemaOptions.name, contextResolver.resolve(schemaOptions));
+					loadContext(self, schemaOptions);
 				}
 				return self;
+
+				function loadContext(self, contextOptions){
+					var context = contextResolver.resolve(contextOptions);
+					self.addContext(contextOptions.name, context.instance);
+					if(Array.any(context.dependOn)){
+						context.dependOn.forEach(function(dependOnItem){
+							loadContext(self, dependOnItem);
+						});
+					}
+				}
 
 				function commit(){
 					var def=GLOBAL.ioc.resolve("Promise").create();

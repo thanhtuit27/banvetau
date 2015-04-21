@@ -6,6 +6,6 @@ define(function(){
 
 
 	function onTourCreated(event){
-		GLOBAL.logger.info("Inside onTourCreated, data:{0}", event.data);
+		GLOBAL.logger.info("Inside onTourCreated, data:{0}", event.data.toJson());
 	}
 });
