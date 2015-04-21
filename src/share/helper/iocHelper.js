@@ -36,6 +36,10 @@ define(["share/model/collection/hash"],function (hashFactory) {
                 isInstantiated: true,
                 instance: require(item.instanceOf)
             };
+            var params = item.params||{};
+            if(instance.instance.injectConstructor){
+                instance.instance.injectConstructor(params);
+            }
             return instance;
         }
 
