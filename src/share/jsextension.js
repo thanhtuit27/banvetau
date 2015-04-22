@@ -79,11 +79,21 @@ System = {
 Array.any=function(array){
     return array && array.length>0;
 }
+Array.prototype.firstOrDefault=function(callback){
+    var result = this.where(callback);
+    var resultItem={};
+    if(Array.any(result)){
+        resultItem=result[0];
+    }
+    return resultItem;
+}
 Array.prototype.where=function(callback){
+    var result = [];
     for(var index=0; index< this.length; index++){
         if(!callback(this[index])){continue;}
-        return this[index];
+        result.push(this[index]);
     }
+    return result;
 }
 Array.prototype.copyFrom = function(arr, startIndex, count) {
     if (!arr) {
@@ -388,7 +398,7 @@ Date.prototype.format = function(mask, utc) {
 Date.prototype.parseFromMoment = function (moment, format) {
     return new Date(moment.format(format));
 };
-Number.prototype.toString = function (decimalPlace) {
+Number.prototype.format = function (decimalPlace) {
     var number = this;
     if (number.isDecimalPartEqualZero()) {
         return number;

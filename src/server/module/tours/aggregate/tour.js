@@ -14,6 +14,7 @@ define(function(){
 			self.locationFrom = System.extend({}, locationFrom);
 			self.locationTo = System.extend({}, locationTo);
 			self.trainInfo = System.extend({}, trainInfo);
+			self.segments=[];
 			self.constructor = constructor;
 			self.toJson = toJson;
 
@@ -25,7 +26,8 @@ define(function(){
 					baseInfo: self.baseInfo,
 					locationFrom: self.locationFrom,
 					locationTo: self.locationTo,
-					trainInfo: self.trainInfo
+					trainInfo: self.trainInfo,
+					segments:self.segments
 				};
 			}
 			function constructor(tourContext){
@@ -39,6 +41,10 @@ define(function(){
 				});
 				context.Trains.getById(self.trainInfo.id).then(function(response){
 					self.trainInfo = System.extend(self.trainInfo, response.toJson().data);
+				});
+
+				context.Segments.getByTrainId(self.trainInfo.id).then(function(response){
+					self.segments = response.toJson().data;
 				});
 			}
 		}
