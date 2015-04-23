@@ -7,19 +7,37 @@ define([
 	"share/model/enums",
 	],function(iqueryableFactory, connectionFactory, builder, toursSchema, responseMessageFactory, enums){
 	var queryContext={
-		where: where
+		where: where,
+		add:add
 	};
 	queryContext = System.inheritInstance(iqueryableFactory.create(), queryContext);
 	return queryContext;
 
-	function where(options){
+	function add(tour){
+		GLOBAL.logger.info("Beginning of tourQueryContext.add:{0}", tour);
 		var def=GLOBAL.ioc.resolve("Promise").create();
-		var query = builder.getQueryParams(options);
-		var model = builder.getModel(toursSchema);
-		model.find(query, function(errors, items){
-			var responseMessage = responseMessageFactory.create();
-			handleResponse(items, errors, responseMessage);
-			def.resolve(responseMessage);
+		connectionFactory.getDb().then(function(database){
+			database.collection("Tours").insert(tour, function(errors, insertedItem){
+				GLOBAL.logger.info("tourQueryContext.add:{0}", insertedItem);
+				var responseMessage = responseMessageFactory.create();
+				handleResponse(insertedItem, errors, responseMessage);
+				def.resolve(responseMessage);
+			});
+		});
+		return def;
+	}
+
+	function where(options){
+		GLOBAL.logger.info("Beginning of tourQueryContext.where, options:{0}", options);
+		var def=GLOBAL.ioc.resolve("Promise").create();
+		connectionFactory.getDb().then(function(database){
+			var query = builder.getQueryParams(options);
+			database.collection("Tours").find(query).toArray(function(errors, items){
+				GLOBAL.logger.info("tourQueryContext.where, query:{0}, result:{1}", query, items);
+				var responseMessage = responseMessageFactory.create();
+				handleResponse(items, errors, responseMessage);
+				def.resolve(responseMessage);
+			});
 		});
 		return def;
 	}

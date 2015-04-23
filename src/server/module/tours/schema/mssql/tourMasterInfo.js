@@ -1,4 +1,6 @@
-define(function(){
+define([
+	"share/helper/guidHelper"
+	],function(guidHelper){
 	var schema = {
 		create: create
 	};
@@ -11,6 +13,9 @@ define(function(){
 			var self = {};
 			self.name = tourAggreate.baseInfo.name;
 			self.id = tourAggreate.baseInfo.id;
+			if(String.isNullOrWhiteSpace(self.id)){
+				self.id=guidHelper.newGuid();
+			}
 			self.locationFromId = tourAggreate.locationFrom.id;
 			self.leaveOn = tourAggreate.locationFrom.leaveOn;
 			self.locationToId = tourAggreate.locationTo.id;

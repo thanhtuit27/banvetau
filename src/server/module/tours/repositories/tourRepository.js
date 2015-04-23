@@ -3,30 +3,67 @@ define([
 	"server/module/common/context/mongodb/baseContext",
 	"server/module/common/models/http/responseMessage",
 	"share/model/enums",
-	"server/module/tours/schema/mssql/tourMasterInfo"
-	],function(queryBuilder, dbContextFactory, responseMessageFactory, enums, tourSchemaFactory){
+	"server/module/tours/schema/mssql/tourMasterInfo",
+	"server/module/tours/aggregate/tour",
+	"server/module/common/models/http/responseMessage",
+	"share/helper/functionHelper",
+	"server/module/common/context/mssql/baseContext",
+	"server/module/common/context/unitOfWork"
+	],function(queryBuilder, dbContextFactory, responseMessageFactory, enums, tourSchemaFactory, tourAggregateFactory, 
+		responseMessageFactory, functionHelper, mssqlContextFactory, unitOfWorkFactory){
 	var respository={
 		getTours:getTours,
-		createTour:createTour,
-		context:null
+		create:create,
+		save: save
 	};
 	return respository;
 
-	function createTour(tourAggreate){
+	function save(tourAggreate){
+		GLOBAL.logger.info("tourRepository.save:{0}", tourAggreate);
 		var def=GLOBAL.ioc.resolve("Promise").create();
 		var tourDto = tourSchemaFactory.create(tourAggreate);
-		GLOBAL.logger.info("Adding Tour into repository ...");
-		respository.context.Tours.add(tourDto).then(function(responseMessage){
+		var schemaOptions={name:"Tour", type:"Command"};
+		var unitOfWork = unitOfWorkFactory.create(schemaOptions);
+
+		unitOfWork.context.Tours.add(tourDto).then(function(responseMessage){
 			GLOBAL.logger.info("Tour was added into repository:{0}", responseMessage);
 			/*Need to publish event to listener*/
 			var eventPublisher = GLOBAL.ioc.resolve("IEventPublisher", "Tour");
-			eventPublisher.publish({name:"TourCreated", data: tourAggreate});
+			eventPublisher.publish({name:"TourCreated", data: tourAggreate.toJson()});
 			/*End Event publishing*/
+			unitOfWork.commit().then(function(){
+				def.resolve(responseMessage);
+			});
+		});
+	
+		return def;
+	}
+	function create(createCommand){
 
+		GLOBAL.logger.info("tourReposotory.Create:{0}", createCommand);
+		var schemaOptions={name:"Tour", type:"Command"};
+		var context = mssqlContextFactory.create(schemaOptions);
+		var def=GLOBAL.ioc.resolve("Promise").create();
+		var serializedCallParams=[
+			{name:"trainInfo", params:createCommand.trainInfo.id, method: context.Trains.getById},
+			{name:"locationFrom", params:createCommand.locationFrom.id, method: context.Locations.getById},
+			{name:"locationTo", params:createCommand.locationTo.id, method: context.Locations.getById},
+			{name:"segments", params:createCommand.trainInfo.id, method: context.Segments.getByTrainId},
+		];
+
+		functionHelper.makeSerializeCall(serializedCallParams).then(function(result){
+			GLOBAL.logger.info("makeSerializeCall result: {0}", result);
+			trainInfo = result.trainInfo;
+			locationFrom = System.extend(createCommand.locationFrom,result.locationFrom);
+			locationTo = System.extend(createCommand.locationTo,result.locationTo);
+			segments = result.segments;
+
+			var tourAggreate = tourAggregateFactory.create(createCommand.baseInfo, locationFrom, locationTo, trainInfo, segments);
+			GLOBAL.logger.info("tourAggreate.create.functionHelper.makeSerializeCall:{0}", tourAggreate);
+			var responseMessage = responseMessageFactory.create();
+			responseMessage.setData(tourAggreate);
 			def.resolve(responseMessage);
 		});
-		GLOBAL.logger.info("createTour in tourRepository");
-
 
 		return def;
 	}

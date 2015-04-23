@@ -19,7 +19,7 @@ define([
 	}
 
 	function buildTourObjectForCreatedEvent(event){
-		var eventJsonData = event.data.toJson();
+		var eventJsonData = event.data;
 		var tour={
 			id:guidHelper.newGuid(),
 			name:String.format("{0} - {1}", eventJsonData.locationFrom.name, eventJsonData.locationTo.name), 

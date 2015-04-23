@@ -4,7 +4,7 @@ define(function(){
 	};
 	return factory;
 
-	function create(baseInfo, locationFrom, locationTo, trainInfo){
+	function create(baseInfo, locationFrom, locationTo, trainInfo, segments){
 		return Aggregate();
 		function Aggregate(){
 			GLOBAL.logger.info("Aggregate in tourAggregate");
@@ -14,7 +14,7 @@ define(function(){
 			self.locationFrom = System.extend({}, locationFrom);
 			self.locationTo = System.extend({}, locationTo);
 			self.trainInfo = System.extend({}, trainInfo);
-			self.segments=[];
+			self.segments=System.extend({}, segments);
 			self.constructor = constructor;
 			self.toJson = toJson;
 
@@ -32,7 +32,7 @@ define(function(){
 			}
 			function constructor(tourContext){
 				context = tourContext;
-				context.Locations.getById(self.locationFrom.id).then(function(response){
+				/*context.Locations.getById(self.locationFrom.id).then(function(response){
 					self.locationFrom = System.extend(self.locationFrom, response.toJson().data);
 				});
 
@@ -45,7 +45,7 @@ define(function(){
 
 				context.Segments.getByTrainId(self.trainInfo.id).then(function(response){
 					self.segments = response.toJson().data;
-				});
+				});*/
 			}
 		}
 	}

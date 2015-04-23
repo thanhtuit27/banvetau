@@ -24,26 +24,15 @@ define([
 		}
 
 		var schemaOptions={name:"Tour", type:"Command"};
-		var unitOfWork = unitOfWorkFactory.create(schemaOptions);
-		GLOBAL.logger.info("UnitOfWork:{0}", unitOfWork);
-
-		var tourAggregate = tourAggregateFactory.create(
-			createTourCommand.baseInfo,
-			createTourCommand.locationFrom,
-			createTourCommand.locationTo,
-			createTourCommand.trainInfo
-		);
-
-		tourAggregate.constructor(unitOfWork.context);
-		GLOBAL.logger.info("tourAggregate:{0}", tourAggregate);
-		//consider if responseMessage should come from commit method
-		GLOBAL.logger.info("tourCommandService: Context:{0}", unitOfWork.context.Tours);
-		tourRepository.context = unitOfWork.context;
-		tourRepository.createTour(tourAggregate).then(function(responseMessage){
-			unitOfWork.commit().then(function(){
-				def.resolve(responseMessage);
+		
+		tourRepository.create(createTourCommand).then(function(responseMessage){
+			var tourAggregate = responseMessage.toJson().data;
+			GLOBAL.logger.info("tourAggregate:{0}", tourAggregate);
+			tourRepository.save(tourAggregate).then(function(saveResponseMessage){
+				def.resolve(saveResponseMessage);
 			});
 		});
+		
 		return def;
 	}
 

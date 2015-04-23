@@ -19,9 +19,12 @@ var cluster = require('cluster');
 
 	var requirejs=require('requirejs');
 	var consolidate=require("consolidate");
-	GLOBAL.mongodb = require('mongoose');
+	//GLOBAL.mongodb = require('mongoose');
 
-	GLOBAL.db={mssql : require('mssql')}; 
+	GLOBAL.db={
+		mongodb: require('mongodb').MongoClient,
+		mssql : require('mssql')
+	}; 
 	
 	var app=new express();
 	var bodyParser = require('body-parser')
