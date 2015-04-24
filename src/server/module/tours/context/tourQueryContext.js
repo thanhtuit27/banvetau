@@ -23,6 +23,7 @@ define([
 				handleResponse(insertedItem, errors, responseMessage);
 				def.resolve(responseMessage);
 			});
+			database.close();
 		});
 		return def;
 	}

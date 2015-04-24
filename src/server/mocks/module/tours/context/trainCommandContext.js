@@ -13,7 +13,6 @@ define([
 		var def=GLOBAL.ioc.resolve("Promise").create();
 		var responseMessage = responseMessageFactory.create();
 		responseMessage.setData(trainDataItems.firstOrDefault(function(item){
-			console.log("inside getById.forEach, trainId:"+ id,item);
 			return item.id==id;
 		}));
 		GLOBAL.logger.info("Inside trainQueryContext'sgetById:{0}", responseMessage.toJson().data);

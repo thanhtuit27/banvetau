@@ -8,63 +8,58 @@ define([
 			
 		};
 		return context;
-		function create(schemaOptions){
+		function create(schemaOptions, uow){
 			GLOBAL.logger.info("creating new instance of MSSQLBaseContext,schemaOptions:{0}", schemaOptions);
 			return MSSQLBaseContext();
 			function MSSQLBaseContext(){
 				GLOBAL.logger.info("new instance of MSSQLBaseContext was created,schemaOptions:{0}", schemaOptions);
 				var self = {
 					excute: excute,
-					commit: commit
+					//commit: commit
 				};
-				//var dbContext = requirejs("server/module/common/context/dbContext");
-				self = System.inheritInstance(dbContextFactory.create(), self);
+				self = System.inheritInstance(dbContextFactory.create(uow), self);
+				GLOBAL.logger.error("MSSQLBaseContext.constructor was done:{0}", self.unitOfWork);
+				/*if(unitOfWork){
+					self.setUnitOfWork(unitOfWork);;
+				}*/
 				if(schemaOptions){
 					GLOBAL.logger.info("MSSQLBaseContext:Resolving content resolver");
 					var contextResolver = GLOBAL.ioc.resolve("IContextResolver");
-					
 					GLOBAL.logger.info("MSSQLBaseContext:contextResolver:{0}, options:{1}", contextResolver, schemaOptions);
-
 					loadContext(self, schemaOptions);
-					
 				}
 				return self;
 
-
 				function loadContext(self, contextOptions){
-					
 					contextOptions.name=contextOptions.name.toPlural();
 					var context = contextResolver.resolve(contextOptions);
 					self.addContext(contextOptions.name, context.instance);
 					if(Array.any(context.dependOn)){
 						context.dependOn.forEach(function(dependOnItem){
 							loadContext(self, dependOnItem);
-							//var dependContext = contextResolver.resolve(dependOnItem);
-							//self.addContext(dependOnItem.name, dependContext.instance);
 						});
 					}
 				}
-				/*if(startNewTransaction && startNewTransaction===true){
-					mssqlConnection.createTransaction();
-				}*/
-
-				function commit(){
+				/*This method was not used at this time. This was planned to be called from unitofwork.commit*/
+				/*function commit(){
 					GLOBAL.logger.info("Inside commit of mssqlBaseContext");
 					var def=GLOBAL.ioc.resolve("Promise").create();
-					var responseMessage = responseMessageFactory.create();
-					mssqlConnection.getTransaction().then(function(transaction){
+					
+					self.getTransaction().then(function(transaction){
 						transaction.commit(function(errors){
 							GLOBAL.logger.info("Commit current transaction, Erros:{0}", errors);
+							var responseMessage = responseMessageFactory.create();
 							def.resolve(responseMessage);		
 						});
 					});
-					
 					return def;
-				}
+				}*/
+				/*This will be called from context of ....*/
 				function excute(command){
 					GLOBAL.logger.info("mssqlBaseContext execute, command:{0}, command as text:{1}", command,command.asCommandText());
 					var def=GLOBAL.ioc.resolve("Promise").create();
-					mssqlConnection.newTransaction().then(function(transaction){
+					GLOBAL.logger.error("MSSQLBaseContext.excute:{0}", this.rootContext.unitOfWork);
+					this.rootContext.unitOfWork.getTransaction().then(function(transaction){
 						var request = new GLOBAL.db.mssql.Request(transaction);
 						GLOBAL.logger.info("Createing new request");
 						//need to check errors status of the call
@@ -72,14 +67,10 @@ define([
 							GLOBAL.logger.info("Result of addTour execution, command:{0}, error:{1}, recordset:{2}", command.asCommandText(), err,  recordset);
 							var responseMessage = responseMessageFactory.create();
 							def.resolve(responseMessage);
-					    });
+					    });	
 					});
-					
 					return def;
 				}
 			}
 		}
-
-		
-		
 });

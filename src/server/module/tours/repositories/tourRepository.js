@@ -32,6 +32,8 @@ define([
 			eventPublisher.publish({name:"TourCreated", data: tourAggreate.toJson()});
 			/*End Event publishing*/
 			unitOfWork.commit().then(function(){
+				GLOBAL.logger.info("unitOfWork.commit in tourRepository.save ...");
+				responseMessage.setData({id:tourDto.id});
 				def.resolve(responseMessage);
 			});
 		});

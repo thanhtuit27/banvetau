@@ -1,10 +1,14 @@
-define(function () {
+define([
+    "share/model/enums"
+    ],function (enums) {
     "use strict";
+    var appMode=enums.appMode.debug;
 
     var logger = {
             info: info,
             error: error,
-            warn: warn
+            warn: warn,
+            injectConstructor:injectConstructor
         };
     /*if (config.runMode == enums.appRunMode.debug)
     {
@@ -15,20 +19,30 @@ define(function () {
         };
     }*/
     return logger;
-
+    function injectConstructor(params){
+        appMode=params.appMode;
+        console.log("Inside injectConstructor"+ appMode);
+    }
     function info() {
+
+        if(appMode==enums.appMode.release){return;}
         var strToWrite = convertToString(arguments);
         console.info(strToWrite);
+        console.info();
     }
 
     function error() {
+        if(appMode==enums.appMode.release){return;}
         var strToWrite = convertToString(arguments);
         console.error(strToWrite);
+        console.info();
     }
 
     function warn() {
+        if(appMode==enums.appMode.release){return;}
         var strToWrite = convertToString(arguments);
         console.warn(strToWrite);
+        console.info();
     }
 
     function convertToString(args){

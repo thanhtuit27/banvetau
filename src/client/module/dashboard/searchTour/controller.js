@@ -15,9 +15,22 @@ define([
 	 }
 
 	 function loadTours(vm){
-	 	tourService.getTours(vm.searchOptions).then(function(tours){
+	 	for(var index=0; index<10; index++){
+	 		window.setTimeout(sendRequest(index), index*100);
+		 }
+	 	/*tourService.getTours(vm.searchOptions).then(function(tours){
 	 		vm.tours=tours;
-	 	});
+	 	});*/
+	 }
+
+	 function sendRequest(index){
+	 	var start=new Date();
+	 	//console.log(String.format("#index request was started at:{0}", start))
+	 	tourService.createTestData().then(function(response){
+	 			var end = new Date();
+	 			var milisecond = end.getTime()-start.getTime();
+		 		console.log(String.format(" was done ...., #{0}, consume:{1} miliseconds, id:{2}", index, milisecond,response.id));
+		 	});
 	 }
 	 function doSearch(searchOptions){
 	 	var logger=ioc.resolve("ILogger");

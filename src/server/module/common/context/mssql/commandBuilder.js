@@ -12,7 +12,8 @@ define(function(){
 				asCommandText:asCommandText
 			};
 			return self;
-
+			
+			/*Return add command for SQL: INSERT INTO TABLE(FIELDS) VALUES(....)*/
 			function asCommandText(){
 				var data = self.dataItem;
 
@@ -22,12 +23,12 @@ define(function(){
 				for(var property in data){
 					if(property==undefined || property=="schema"){continue;}
 					fields=String.format("{0},{1}", fields, property);
-
 					value=String.format("{0},'{1}'", value, !data[property]?"": data[property]);
 				}
 				fields=String.removeFirst(fields, ",");
 				value=String.removeFirst(value, ",");
 				sql=String.format("{0}({1}) VALUES({2})", sql, fields, value);
+
 				return sql;
 			}
 		}

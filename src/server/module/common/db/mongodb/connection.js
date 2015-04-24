@@ -35,6 +35,7 @@ define([
 			if(error){
 				GLOBAL.logger.error("Creating the conenction fail, error:{0}", error);
 				def.reject(error);
+				return;
 			}
 			GLOBAL.logger.info("the connection to data for querying was created");
 			//database = db;

@@ -213,7 +213,7 @@ str.EndWith('her')=false;
 */
 String.prototype.endWith = function(suffix) {
     var value=this.substr(this.length - suffix.length);
-    console.log("endWith", value, suffix);
+    //console.log("endWith", value, suffix);
     return (value === suffix);
 };
 

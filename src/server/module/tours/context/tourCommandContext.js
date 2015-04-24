@@ -14,9 +14,10 @@ define([
 
 	function add(tourItem){
 		var def=GLOBAL.ioc.resolve("Promise").create();
-		GLOBAL.logger.info("add of tourCommandContext, dataItem:{0}", tourItem);
+		GLOBAL.logger.info("add of tourCommandContext, dataItem:{0}", context.rootContext);
 		var addCommand =  commandBuilderFactory.createAddCommand(tourItem);
-		this.excute(addCommand).then(function(responseMessage){
+		//def.resolve({});
+		context.excute(addCommand).then(function(responseMessage){
 			def.resolve(responseMessage);
 		});
 		return def;

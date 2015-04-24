@@ -13,7 +13,7 @@ define([
 		var def=GLOBAL.ioc.resolve("Promise").create();
 		var responseMessage = responseMessageFactory.create();
 		responseMessage.setData(locationDataItems.firstOrDefault(function(item){
-			console.log("inside getById.forEach, locationId:"+ locationId,item);
+			//console.log("inside getById.forEach, locationId:"+ locationId,item);
 			return item.id==locationId;
 		}));
 
