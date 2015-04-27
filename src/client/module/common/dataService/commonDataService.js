@@ -15,7 +15,7 @@ define([
 				handlingError(response, url, options);
 				def.reject();
 			}
-			def.resolve(response.data);
+			def.resolve(response.data||{});
 		}).fail(function(response){
 			handlingError(response, url, options);
 		});

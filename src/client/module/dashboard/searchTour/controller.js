@@ -15,8 +15,11 @@ define([
 	 }
 
 	 function loadTours(vm){
-	 	for(var index=0; index<10; index++){
-	 		window.setTimeout(sendRequest(index), index*100);
+	 	console.log(vm.searchOptions);
+	 	var max = parseInt(vm.searchOptions.from||"10");
+	 	var interval = parseInt(vm.searchOptions.to||"100");
+	 	for(var index=0; index < max; index++){
+	 		window.setTimeout(sendRequest(index), index*interval);
 		 }
 	 	/*tourService.getTours(vm.searchOptions).then(function(tours){
 	 		vm.tours=tours;
@@ -24,13 +27,13 @@ define([
 	 }
 
 	 function sendRequest(index){
-	 	var start=new Date();
+ 		var start=new Date();
 	 	//console.log(String.format("#index request was started at:{0}", start))
 	 	tourService.createTestData().then(function(response){
 	 			var end = new Date();
 	 			var milisecond = end.getTime()-start.getTime();
 		 		console.log(String.format(" was done ...., #{0}, consume:{1} miliseconds, id:{2}", index, milisecond,response.id));
-		 	});
+	 	});
 	 }
 	 function doSearch(searchOptions){
 	 	var logger=ioc.resolve("ILogger");

@@ -2,6 +2,9 @@ define([
 	"server/module/tours/context/tourCommandContext"
 	],function(){
 	var contextConfigs=[
+	/*Queue Command*/
+		{key:"QueueCommands_Query", instanceOf:"server/module/common/context/queue/queueCommandQueryContext"},
+		/*Tours*/
 		{key:"Segments_Command", instanceOf:"server/mocks/module/tours/context/segmentCommandContext"},
 		{key:"Locations_Command", instanceOf:"server/mocks/module/tours/context/locationCommandContext"},
 		{key:"Trains_Command", instanceOf:"server/mocks/module/tours/context/trainCommandContext"},

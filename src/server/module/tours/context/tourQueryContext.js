@@ -22,8 +22,9 @@ define([
 				var responseMessage = responseMessageFactory.create();
 				handleResponse(insertedItem, errors, responseMessage);
 				def.resolve(responseMessage);
+				database.close();
 			});
-			database.close();
+			
 		});
 		return def;
 	}

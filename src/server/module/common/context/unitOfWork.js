@@ -47,6 +47,8 @@ define([
 					GLOBAL.logger.info("Commit current transaction, Erros:{0}", errors);
 					var responseMessage = responseMessageFactory.create();
 					def.resolve(responseMessage);		
+					self.transaction.connection1.close();
+					GLOBAL.logger.info("Connection was closed...");
 				});
 				/*if(self.context && self.context.commit){
 					self.context.commit().then(function(responseMessage){

@@ -10,14 +10,14 @@ define([
 
 	function getDb(){
 		var def=GLOBAL.ioc.resolve("Promise").create();
-		if(!database){
+		//if(!database){
 			connect().then(function(db){
-				database = db;
-				def.resolve(database);
+				//database = db;
+				def.resolve(db);
 			});
-		}else{
-			def.resolve(database);
-		}
+		//}else{
+		//	def.resolve(database);
+		//}
 		return def;
 	}
 	function getConnection(){

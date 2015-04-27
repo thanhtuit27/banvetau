@@ -35,14 +35,14 @@ define([
         if(appMode==enums.appMode.release){return;}
         var strToWrite = convertToString(arguments);
         console.error(strToWrite);
-        console.info();
+        console.error();
     }
 
     function warn() {
         if(appMode==enums.appMode.release){return;}
         var strToWrite = convertToString(arguments);
         console.warn(strToWrite);
-        console.info();
+        console.warn();
     }
 
     function convertToString(args){

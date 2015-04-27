@@ -8,9 +8,10 @@ define([
 	"server/module/common/models/http/responseMessage",
 	"share/helper/functionHelper",
 	"server/module/common/context/mssql/baseContext",
-	"server/module/common/context/unitOfWork"
+	"server/module/common/context/unitOfWork",
+	"server/module/common/event/eventManager"
 	],function(queryBuilder, dbContextFactory, responseMessageFactory, enums, tourSchemaFactory, tourAggregateFactory, 
-		responseMessageFactory, functionHelper, mssqlContextFactory, unitOfWorkFactory){
+		responseMessageFactory, functionHelper, mssqlContextFactory, unitOfWorkFactory, eventPublisher){
 	var respository={
 		getTours:getTours,
 		create:create,
@@ -27,15 +28,16 @@ define([
 
 		unitOfWork.context.Tours.add(tourDto).then(function(responseMessage){
 			GLOBAL.logger.info("Tour was added into repository:{0}", responseMessage);
-			/*Need to publish event to listener*/
-			var eventPublisher = GLOBAL.ioc.resolve("IEventPublisher", "Tour");
-			eventPublisher.publish({name:"TourCreated", data: tourAggreate.toJson()});
-			/*End Event publishing*/
 			unitOfWork.commit().then(function(){
 				GLOBAL.logger.info("unitOfWork.commit in tourRepository.save ...");
 				responseMessage.setData({id:tourDto.id});
 				def.resolve(responseMessage);
+				/*Need to publish event to listener*/	
+				//var eventPublisher = GLOBAL.ioc.resolve("IEventPublisher", "Tour");
+				eventPublisher.publish({name:"TourCreated", data: tourAggreate.toJson()});
+				/*End Event publishing*/
 			});
+
 		});
 	
 		return def;
