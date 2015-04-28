@@ -4,7 +4,8 @@ define(function(){
 
 	function getRoutes(){
 		var routes=[
-			{method:"get", url:"", handler:"server/module/tours/handlers/tourHandler" }
+			{method:"get", url:"", handler:"server/module/tours/handlers/tourHandler" },
+			{method:"post", url:"", handler:"server/module/tours/handlers/tourHandler" }
 		];
 		return routes;
 	}

@@ -2,9 +2,25 @@ define([
 	"client/module/common/helper/urlHelper"
 	],function(urlHelper){
 	var dataService = {
-		get:get
+		get:get,
+		post:post
 	};
 	return dataService;
+
+
+	function post(url, data){
+		var def=new $.Deferred();
+		$.post(url,data, function(response){
+			if(!response || (response.errors && response.errors.length>0)){
+				handlingError(response, url, options);
+				def.reject();
+			}
+			def.resolve(response.data||{});
+		}).fail(function(response){
+			handlingError(response, url, options);
+		});
+		return def;
+	}
 	function get(url, options){
 		var def=new $.Deferred();
 		var url= urlHelper.addParams(url,options);

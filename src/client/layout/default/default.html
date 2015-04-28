@@ -1,12 +1,17 @@
-<div class="super-container ng-scope" ng-controller="defaultLayout as vm">
-    <div class="et-banner">
-        <layout-default-banner></layout-default-banner>
+<link href="/client/layout/default/style.css" type="text/css" rel="stylesheet">
+<div class="default-layout" ng-controller="defaultLayout as vm">
+    <div class="page-header">
+        <!--<layout-default-banner></layout-default-banner>-->
     </div>
-    <div role="navigation" class="et-navbar hidden-print ng-scope">
-        <layout-default-menu></layout-default-menu>
+    <div class="page-content">
+        <div class="left-panel">
+            Left panel
+        </div>
+        <div class="right-panel" ui-view>
+            right panel
+        </div>
     </div>
-    <div class="container et-main-content" >
-        <div class="shuffle-animation col-md-12 ng-scope" ui-view></div>
-        <layout-default-footer></layout-default-footer>
+    <div class="page-footer">
+        <!--<layout-default-footer></layout-default-footer>-->
     </div>
 </div>

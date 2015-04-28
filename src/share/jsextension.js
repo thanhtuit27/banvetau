@@ -1,8 +1,43 @@
 /*
 Define all extention for js object in this file
 */
-
+Object.toJson=function(obj){
+    var value="";
+    for(var property in obj){
+        value = String.format("{0},{1}:{2}", value, property, obj[property]);
+    }
+    return value;
+}
+Object.clone=function(instance){
+    var emptyFn=new (System.emptyFn())();
+    for (var property in instance) {
+        emptyFn[property]=instance[property];
+    };
+    //console.log("data after clone:", emptyFn);
+    return emptyFn;
+}
 System = {
+    extend:function(dest,source){
+        var result = Object.clone(dest);
+        if(source){
+            for (var property in source) {
+                result[property]=source[property];
+            };
+        }
+        return result;
+    },
+    inheritInstance:function(parentInstance, childInstance){
+        var func=Object.clone(childInstance);
+        //console.log("data after clone:", func.constructor);
+        func.__proto__ = Object.clone(parentInstance);
+        //func.constructor.prototype.constructor=func.constructor;
+        //console.log("After inherit:", func.data);
+        return func;
+    },
+    inherit:function(parentInstance, childConstructor){
+        childConstructor.prototype = parentInstance;
+        childConstructor.prototype.constructor=childConstructor;
+    },
     toJson:function(obj, deepLevel, currentLevel){
         try{
             deepLevel = deepLevel?deepLevel:2;
@@ -27,7 +62,7 @@ System = {
     },
     getVal: function(obj) {
         if (System.isObject(obj)) {
-            return JSON.stringify(obj);
+            return System.toJson(obj, 0);
         }
         return System.isFunction(obj) ? obj() : obj;
     },
@@ -36,9 +71,30 @@ System = {
     },
     emptyFn:function(){
         return function(){};
-    }
+    },
+    emptyObj:{}
 };
 
+
+Array.any=function(array){
+    return array && array.length>0;
+}
+Array.prototype.firstOrDefault=function(callback){
+    var result = this.where(callback);
+    var resultItem={};
+    if(Array.any(result)){
+        resultItem=result[0];
+    }
+    return resultItem;
+}
+Array.prototype.where=function(callback){
+    var result = [];
+    for(var index=0; index< this.length; index++){
+        if(!callback(this[index])){continue;}
+        result.push(this[index]);
+    }
+    return result;
+}
 Array.prototype.copyFrom = function(arr, startIndex, count) {
     if (!arr) {
         return;
@@ -48,6 +104,12 @@ Array.prototype.copyFrom = function(arr, startIndex, count) {
     }
     return this;
 };
+Array.prototype.pushArray = function(items) {
+    var self = this;
+    items.forEach(function(item){
+        self.push(item);
+    });
+}
 Array.prototype.removeItem = function(item) {
     var index = this.indexOf(item);
     if (index > -1) {
@@ -82,10 +144,18 @@ For example:
     apple -> apples
 
 
-    TODO: Will refactor later
+    TODO: Will refactor later to handle y case
 */
 String.prototype.toPlural = function() {
-    return this+"s";
+    var value = this+"";
+    if(!value.endWith("s") && !value.endWith("es") && !value.endWith("y")){
+        value = value+'s';
+    }
+
+    //if(value.endWith("y")){
+      //  value = value.removeLast("y")+"ies";
+    //}
+    return value;
 };
 String.prototype.toDateTimeFormat = function(format) {
     var date = new Date(this);
@@ -112,6 +182,22 @@ String.prototype.isEqual = function(valueToCompare) {
     }
     return isEqual;
 };
+String.removeLast = function (str, text) {
+    if(!str.isExist(text)){
+        return str;
+    }
+    var lastIndex = str.lastIndexOf(text);
+    return str.substring(0, lastIndex);
+}
+
+String.removeFirst = function (str, text) {
+    if(!str.isExist(text)){
+        return str;
+    }
+    var index = str.indexOf(text) + text.length;
+    return str.substring(index , str.length);
+}
+
 String.prototype.capitalize = function () {
     return this.charAt(0).toUpperCase() + this.slice(1);
 };
@@ -126,7 +212,9 @@ str.EndWith('hero')=true;
 str.EndWith('her')=false;
 */
 String.prototype.endWith = function(suffix) {
-    return (this.substr(this.length - suffix.length) === suffix);
+    var value=this.substr(this.length - suffix.length);
+    //console.log("endWith", value, suffix);
+    return (value === suffix);
 };
 
 /*
@@ -310,7 +398,7 @@ Date.prototype.format = function(mask, utc) {
 Date.prototype.parseFromMoment = function (moment, format) {
     return new Date(moment.format(format));
 };
-Number.prototype.toString = function (decimalPlace) {
+Number.prototype.format = function (decimalPlace) {
     var number = this;
     if (number.isDecimalPartEqualZero()) {
         return number;

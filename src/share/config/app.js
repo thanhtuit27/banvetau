@@ -16,7 +16,11 @@ define([
 				port:3000
 			},
 			server:{
-				modules:modules
+				modules:modules,
+				connections:{
+					defaultConnectionForQuery:"mongodb://localhost:27017/db",
+					defaultConnectionForCommand:{user: 'sa',password: '1qazxsw2',server: '192.168.69.209',database: 'TestDB'}
+				}
 			},
 			//true for caching the content in the app
 			cache:true

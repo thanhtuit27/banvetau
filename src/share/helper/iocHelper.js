@@ -17,7 +17,7 @@ define(["share/model/collection/hash"],function (hashFactory) {
         function resolve(type, name) {
             var key = getKey(type, name);
             if (!registeredItems.get(key)) {
-                return null;
+                return String.isNullOrWhiteSpace(name)?null : resolve(type);
             }
             var item = registeredItems.get(key);
             if (item.isInstantiated === true) {
@@ -25,7 +25,6 @@ define(["share/model/collection/hash"],function (hashFactory) {
             }
             item = createInstance(item);
             registeredItems.update(key, item);
-
             return item.instance;
         }
         /*
@@ -37,13 +36,17 @@ define(["share/model/collection/hash"],function (hashFactory) {
                 isInstantiated: true,
                 instance: require(item.instanceOf)
             };
+            var params = item.params||{};
+            if(instance.instance.injectConstructor){
+                instance.instance.injectConstructor(params);
+            }
             return instance;
         }
 
         function load(iocUrl) {
             var iocConfig = require(iocUrl);
             
-            console.log(String.format("url:{0}, data:{1}", iocUrl, iocConfig));
+            //console.log(String.format("url:{0}, data:{1}", iocUrl, iocConfig));
 
             if (!iocConfig || iocConfig.length <= 0) {
                 //defer.resolve(this);
@@ -58,9 +61,9 @@ define(["share/model/collection/hash"],function (hashFactory) {
         }
 
         function getKey(type, name) {
-            console.log(String.format("IoC type:{0}, name:{1}", type, name));
+            //console.log(String.format("IoC type:{0}, name:{1}", type, name));
             var key = String.format("{0}{1}", type, String.isNullOrWhiteSpace(name) ? "" : name.capitalize());
-            console.log(String.format("Key in IOC:{0}", key));
+            //console.log(String.format("Key in IOC:{0}", key));
             return key;
         }
     }
