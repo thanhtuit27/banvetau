@@ -13,7 +13,7 @@ define([
 				alias:'client',
 				//startpage of client
 				defaultUrl:'index.html',
-				port:3000
+				port:80
 			},
 			server:{
 				modules:modules,
