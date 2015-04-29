@@ -19,7 +19,6 @@ if (cluster.isMaster) {
 
 	var requirejs=require('requirejs');
 	var consolidate=require("consolidate");
-	//GLOBAL.mongodb = require('mongoose');
 	GLOBAL.requirejs = requirejs;
 	GLOBAL.db={
 		mongodb: require('mongodb').MongoClient,

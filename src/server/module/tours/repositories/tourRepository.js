@@ -1,17 +1,15 @@
 define([
-	"server/module/common/builder/queryBuilder",
 	"server/module/common/context/mongodb/baseContext",
 	"server/module/common/models/http/responseMessage",
 	"share/model/enums",
 	"server/module/tours/schema/mssql/tourMasterInfo",
 	"server/module/tours/aggregate/tour",
-	"server/module/common/models/http/responseMessage",
 	"share/helper/functionHelper",
 	"server/module/common/context/mssql/baseContext",
 	"server/module/common/context/unitOfWork",
 	"server/module/common/event/eventManager"
-	],function(queryBuilder, dbContextFactory, responseMessageFactory, enums, tourSchemaFactory, tourAggregateFactory, 
-		responseMessageFactory, functionHelper, mssqlContextFactory, unitOfWorkFactory, eventPublisher){
+	],function(dbContextFactory, responseMessageFactory, enums, tourSchemaFactory, tourAggregateFactory, 
+		functionHelper, mssqlContextFactory, unitOfWorkFactory, eventManager){
 	var respository={
 		getTours:getTours,
 		create:create,
@@ -32,10 +30,7 @@ define([
 				GLOBAL.logger.info("unitOfWork.commit in tourRepository.save ...");
 				responseMessage.setData({id:tourDto.id});
 				def.resolve(responseMessage);
-				/*Need to publish event to listener*/	
-				//var eventPublisher = GLOBAL.ioc.resolve("IEventPublisher", "Tour");
-				eventPublisher.publish({name:"TourCreated", data: tourAggreate.toJson()});
-				/*End Event publishing*/
+				eventManager.publish({name:"TourCreated", data: tourAggreate.toJson()});
 			});
 
 		});

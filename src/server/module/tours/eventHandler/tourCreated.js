@@ -1,7 +1,6 @@
 define([
 	"server/module/common/context/mongodb/baseContext",
-	"share/helper/guidHelper"
-	],function(dbContextFactory, guidHelper){
+	],function(dbContextFactory){
 	var handler={
 		onTourCreated:onTourCreated
 	};
@@ -14,14 +13,14 @@ define([
 		var schemaOptions={name:"Tour", type:"Query"};
 		var context= dbContextFactory.create(schemaOptions);
 		context.Tours.add(tourForQueryObj).then(function(response){
-			GLOBAL.logger.info("Tour was synced to query repository, result:", response.toJson());
+			GLOBAL.logger.info("Tour was synced to query repository, result:{0}", response.toJson());
 		});
 	}
 
 	function buildTourObjectForCreatedEvent(event){
 		var eventJsonData = event.data;
 		var tour={
-			id:guidHelper.newGuid(),
+			id:eventJsonData.id,
 			name:String.format("{0} - {1}", eventJsonData.locationFrom.name, eventJsonData.locationTo.name), 
 			fromLocation:eventJsonData.locationFrom,
 			toLocation:eventJsonData.locationTo,

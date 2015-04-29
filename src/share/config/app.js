@@ -19,6 +19,7 @@ define([
 				modules:modules,
 				connections:{
 					defaultConnectionForQuery:"mongodb://localhost:27017/db",
+					/*Will check and update as defaultConnectionForQuery format*/
 					defaultConnectionForCommand:{user: 'sa',password: '1qazxsw2',server: '192.168.69.209',database: 'TestDB'}
 				}
 			},

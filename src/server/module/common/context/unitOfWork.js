@@ -1,6 +1,6 @@
 define([
 	"server/module/common/context/mssql/baseContext",
-	"server/module/common/context/mssql/mssqlConnection",
+	"server/module/common/context/mssql/connection",
 	"server/module/common/models/http/responseMessage"
 	//"server/module/common/context/dbContext",
 	],function(dbContextFactory, mssqlConnection, responseMessageFactory){
@@ -24,10 +24,6 @@ define([
 			GLOBAL.logger.error("UnitOfWork.constructor was done:{0}", self.context.unitOfWork);
 			return self;
 
-
-			function createNewTransaction(){
-				
-			}
 			function getTransaction(){
 				var def = GLOBAL.ioc.resolve("Promise").create();
 				if(!self.transaction){
@@ -50,11 +46,6 @@ define([
 					self.transaction.connection1.close();
 					GLOBAL.logger.info("Connection was closed...");
 				});
-				/*if(self.context && self.context.commit){
-					self.context.commit().then(function(responseMessage){
-						def.resolve(responseMessage);	
-					});
-				}*/
 				return def;
 			}
 		}

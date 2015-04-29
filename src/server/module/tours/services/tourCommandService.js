@@ -1,10 +1,8 @@
 define([
 	"server/module/common/models/http/responseMessage",
-	"server/module/common/context/unitOfWork",
 	"server/module/tours/repositories/tourRepository",
-	"server/module/tours/aggregate/tour",
 	"share/model/enums",
-	],function(responseMessageFactory, unitOfWorkFactory, tourRepository, tourAggregateFactory, enums){
+	],function(responseMessageFactory, tourRepository, enums){
 	var command={
 		createTour: createTour
 	};

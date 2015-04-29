@@ -1,11 +1,10 @@
 define([
 	"server/module/common/models/queryable/iqueryable",
-	"server/module/common/db/mongodb/connection",
-	"server/module/common/db/mongodb/builder",
-	"server/module/tours/schema/mongodb/tours",
+	"server/module/common/context/mongodb/connection",
+	"server/module/common/context/mongodb/builder",
 	"server/module/common/models/http/responseMessage",
 	"share/model/enums",
-	],function(iqueryableFactory, connectionFactory, builder, toursSchema, responseMessageFactory, enums){
+	],function(iqueryableFactory, connectionFactory, builder, responseMessageFactory, enums){
 	var queryContext={
 		where: where,
 		add:add
@@ -18,9 +17,9 @@ define([
 		var def=GLOBAL.ioc.resolve("Promise").create();
 		connectionFactory.getDb().then(function(database){
 			database.collection("Tours").insert(tour, function(errors, insertedItem){
-				GLOBAL.logger.info("tourQueryContext.add:{0}", insertedItem);
+				GLOBAL.logger.info("tourQueryContext.add:{0}", tour);
 				var responseMessage = responseMessageFactory.create();
-				handleResponse(insertedItem, errors, responseMessage);
+				handleResponse(tour, errors, responseMessage);
 				def.resolve(responseMessage);
 				database.close();
 			});

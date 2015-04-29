@@ -10,28 +10,13 @@ define(['server/module/common/models/queryable/iqueryable'],
 		return Context();
 		function Context(){
 			var self={
-				/*Temporary not to use*/
-				//transaction:null,
 				unitOfWork:uow,
-				//getTransaction:getTransaction,
 				commit:commit,
 				addContext:addContext,
-				//setUnitOfWork:setUnitOfWork
 			};
 
 			self = System.inheritInstance(iqueryableFactory.create(), self);
-			//self.commit = commit;
-			//self.addContext = addContext;
 			return self;
-
-
-			/*function setUnitOfWork(uow){
-				GLOBAL.logger.info("dbContext.setUnitOfWork ...{0}", uow);
-				self.unitOfWork = uow;
-			}*/
-			/*function getTransaction(){
-				return self.unitOfWork.getTransaction();
-			}*/
 
 			function addContext(name, context){
 				context=context||{};
@@ -54,7 +39,4 @@ define(['server/module/common/models/queryable/iqueryable'],
 			}
 		}
 	}
-
-
-	
 });

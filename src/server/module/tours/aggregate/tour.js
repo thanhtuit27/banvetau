@@ -1,4 +1,6 @@
-define(function(){
+define([
+	"share/helper/guidHelper"
+	],function(guidHelper){
 	var factory={
 		create: create
 	};
@@ -10,42 +12,25 @@ define(function(){
 			GLOBAL.logger.info("Aggregate in tourAggregate");
 			var context = null;
 			var self={};
+			self.id=guidHelper.newGuid();
 			self.baseInfo = System.extend({}, baseInfo);
 			self.locationFrom = System.extend({}, locationFrom);
 			self.locationTo = System.extend({}, locationTo);
 			self.trainInfo = System.extend({}, trainInfo);
 			self.segments=System.extend({}, segments);
-			self.constructor = constructor;
 			self.toJson = toJson;
 
-			//self.constructor();
 			return self;
 
 			function toJson(){
 				return {
+					id:self.id,
 					baseInfo: self.baseInfo,
 					locationFrom: self.locationFrom,
 					locationTo: self.locationTo,
 					trainInfo: self.trainInfo,
 					segments:self.segments
 				};
-			}
-			function constructor(tourContext){
-				context = tourContext;
-				/*context.Locations.getById(self.locationFrom.id).then(function(response){
-					self.locationFrom = System.extend(self.locationFrom, response.toJson().data);
-				});
-
-				context.Locations.getById(self.locationTo.id).then(function(response){
-					self.locationTo = System.extend(self.locationTo, response.toJson().data);
-				});
-				context.Trains.getById(self.trainInfo.id).then(function(response){
-					self.trainInfo = System.extend(self.trainInfo, response.toJson().data);
-				});
-
-				context.Segments.getByTrainId(self.trainInfo.id).then(function(response){
-					self.segments = response.toJson().data;
-				});*/
 			}
 		}
 	}

@@ -58,24 +58,11 @@ define(function(){
 					callback.fail=failCallback;
 				}
 				processCallback();
-				/*if(status===promiseStatus.none){
-					return;
-				}
-
-				if(status===promiseStatus.success && successCallback){
-					successCallback(result);
-				}
-
-				if(status===promiseStatus.fail && failCallback){
-					failCallback(error, result);
-				}*/
 			}
 			function always(callback){
 				if(callback){
 					callback.always=callback;
 				}
-				//if(!callback){return;}
-				//callback();
 			}
 		}
 	}

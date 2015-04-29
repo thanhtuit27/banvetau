@@ -10,14 +10,9 @@ define([
 
 	function getDb(){
 		var def=GLOBAL.ioc.resolve("Promise").create();
-		//if(!database){
-			connect().then(function(db){
-				//database = db;
-				def.resolve(db);
-			});
-		//}else{
-		//	def.resolve(database);
-		//}
+		connect().then(function(db){
+			def.resolve(db);
+		});
 		return def;
 	}
 	function getConnection(){
@@ -29,8 +24,6 @@ define([
 
 	function connect(){
 		var def=GLOBAL.ioc.resolve("Promise").create();
-		//database = GLOBAL.mongodb;
-		//database.connect(appConfig.server.connections.defaultConnectionForQuery);
 		GLOBAL.db.mongodb.connect(appConfig.server.connections.defaultConnectionForQuery, function(error, db) {
 			if(error){
 				GLOBAL.logger.error("Creating the conenction fail, error:{0}", error);
@@ -38,7 +31,6 @@ define([
 				return;
 			}
 			GLOBAL.logger.info("the connection to data for querying was created");
-			//database = db;
 			def.resolve(db);
 		});
 		return def;

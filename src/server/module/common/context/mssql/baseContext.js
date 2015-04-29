@@ -1,8 +1,7 @@
 define([
 	"server/module/common/context/dbContext",
-	"server/module/common/context/mssql/mssqlConnection",
 	"server/module/common/models/http/responseMessage"
-	],function(dbContextFactory, mssqlConnection,responseMessageFactory){
+	],function(dbContextFactory, responseMessageFactory){
 		var context = {
 			create: create,
 			
@@ -15,13 +14,9 @@ define([
 				GLOBAL.logger.info("new instance of MSSQLBaseContext was created,schemaOptions:{0}", schemaOptions);
 				var self = {
 					excute: excute,
-					//commit: commit
 				};
 				self = System.inheritInstance(dbContextFactory.create(uow), self);
 				GLOBAL.logger.error("MSSQLBaseContext.constructor was done:{0}", self.unitOfWork);
-				/*if(unitOfWork){
-					self.setUnitOfWork(unitOfWork);;
-				}*/
 				if(schemaOptions){
 					GLOBAL.logger.info("MSSQLBaseContext:Resolving content resolver");
 					var contextResolver = GLOBAL.ioc.resolve("IContextResolver");
@@ -40,20 +35,6 @@ define([
 						});
 					}
 				}
-				/*This method was not used at this time. This was planned to be called from unitofwork.commit*/
-				/*function commit(){
-					GLOBAL.logger.info("Inside commit of mssqlBaseContext");
-					var def=GLOBAL.ioc.resolve("Promise").create();
-					
-					self.getTransaction().then(function(transaction){
-						transaction.commit(function(errors){
-							GLOBAL.logger.info("Commit current transaction, Erros:{0}", errors);
-							var responseMessage = responseMessageFactory.create();
-							def.resolve(responseMessage);		
-						});
-					});
-					return def;
-				}*/
 				/*This will be called from context of ....*/
 				function excute(command){
 					GLOBAL.logger.info("mssqlBaseContext execute, command:{0}, command as text:{1}", command,command.asCommandText());

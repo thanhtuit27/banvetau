@@ -11,11 +11,8 @@ define([
 		function TourMasterInfo(tourAggreate){
 			GLOBAL.logger.info("Creating new master data item from:{0}", tourAggreate)
 			var self = {};
+			self.id = tourAggreate.id;
 			self.name = tourAggreate.baseInfo.name;
-			self.id = tourAggreate.baseInfo.id;
-			if(String.isNullOrWhiteSpace(self.id)){
-				self.id=guidHelper.newGuid();
-			}
 			self.locationFromId = tourAggreate.locationFrom.id;
 			self.leaveOn = tourAggreate.locationFrom.leaveOn;
 			self.locationToId = tourAggreate.locationTo.id;

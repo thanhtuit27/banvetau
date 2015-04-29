@@ -10,14 +10,6 @@ define([
             warn: warn,
             injectConstructor:injectConstructor
         };
-    /*if (config.runMode == enums.appRunMode.debug)
-    {
-        logger = {
-            info: info,
-            error: error,
-            warn: warn
-        };
-    }*/
     return logger;
     function injectConstructor(params){
         appMode=params.appMode;

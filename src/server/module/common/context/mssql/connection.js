@@ -1,7 +1,6 @@
 define([
 	"share/config/app"
 	],function(appConfig){
-	//var connection=null;
 	var transaction=null;
 	var mssqlConnection={
 		newTransaction:newTransaction,

@@ -1,9 +1,7 @@
 define([
 	'share/config/app',
 	'share/helper/routeHelper',
-	'server/module/common/event/eventSubscriberManager',
-	'server/config/eventHandler'
-],function(appConfig, routeHelper, subscriberManager, eventHandlers){
+],function(appConfig, routeHelper){
 	var handler={
 		name:"serverHandler",
 		description:"Handle request API from client app",
@@ -16,9 +14,6 @@ define([
 		initGLOBALFunction();
 		//configNodePlugins(app);
 		configModules(app, appConfig);
-		//configSubscriber();
-		
-
 	}
 
 	function initGLOBALFunction(){
@@ -31,9 +26,6 @@ define([
 		}
 	}
 
-	/*function configSubscriber(){
-		subscriberManager.registerHandlers(eventHandlers);
-	}*/
 
 	/*function configNodePlugins(app){
 		var bodyParser = require('body-parser');
@@ -45,13 +37,13 @@ define([
 	function configModules(app, appConfig){
 		appConfig.server.modules.forEach(function(module){
 			app.use(module.url, registerModuleRoutes(module));
-			configEventSubcriber(module);
+			moduleInitialize(module);
 		});
 	}
 
-	function configEventSubcriber(module){
-		if(module.configSubcriber){
-			module.configSubcriber();
+	function moduleInitialize(module){
+		if(module.init){
+			module.init();
 		}
 	}
 	function registerModuleRoutes(module){

@@ -28,10 +28,7 @@ System = {
     },
     inheritInstance:function(parentInstance, childInstance){
         var func=Object.clone(childInstance);
-        //console.log("data after clone:", func.constructor);
         func.__proto__ = Object.clone(parentInstance);
-        //func.constructor.prototype.constructor=func.constructor;
-        //console.log("After inherit:", func.data);
         return func;
     },
     inherit:function(parentInstance, childConstructor){

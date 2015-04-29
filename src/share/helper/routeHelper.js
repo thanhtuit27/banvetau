@@ -6,8 +6,6 @@ define(function(){
 	};
 	return helper;
 
-	
-
 	function registerRoute(router, route){
 		var method = String.isNullOrWhiteSpace(route.method)?"get":route.method;
 

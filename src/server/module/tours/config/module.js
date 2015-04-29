@@ -1,16 +1,17 @@
 define([
 	"server/module/tours/config/route",
 	"server/module/tours/config/eventHandler",
-	"server/module/common/event/eventManager"
-	],function(routeConfig,eventSubcribers, eventManager){
+	//"server/module/common/event/eventManager"
+	],function(routeConfig,eventSubcribers/*, eventManager*/){
 	var config={
 		url:"/api/tours",
 		routes: routeConfig,
-		configSubcriber:configSubcriber
+		init:init
 	};
 	return config;
 
-	function configSubcriber(){
+	function init(){
+		var eventManager  = GLOBAL.requirejs("server/module/common/event/eventManager");
 		eventSubcribers.forEach(function(event){
 			var handlerName = String.format("on{0}", event.name);
 			var eventParam = {name:event.name, handler: GLOBAL.requirejs(event.instanceOf)[handlerName]};

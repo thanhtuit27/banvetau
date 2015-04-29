@@ -45,13 +45,8 @@ define(["share/model/collection/hash"],function (hashFactory) {
 
         function load(iocUrl) {
             var iocConfig = require(iocUrl);
-            
-            //console.log(String.format("url:{0}, data:{1}", iocUrl, iocConfig));
 
-            if (!iocConfig || iocConfig.length <= 0) {
-                //defer.resolve(this);
-                return;
-            }
+            if (!iocConfig || iocConfig.length <= 0) { return; }
 
             for (var index = 0; index < iocConfig.length; index++) {
                 var iocConfigItem = iocConfig[index];
@@ -61,9 +56,7 @@ define(["share/model/collection/hash"],function (hashFactory) {
         }
 
         function getKey(type, name) {
-            //console.log(String.format("IoC type:{0}, name:{1}", type, name));
             var key = String.format("{0}{1}", type, String.isNullOrWhiteSpace(name) ? "" : name.capitalize());
-            //console.log(String.format("Key in IOC:{0}", key));
             return key;
         }
     }
